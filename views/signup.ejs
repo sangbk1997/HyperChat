@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chat App Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include app-css.ejs %>
+</head>
+<body>
+
+<div class="signup-page">
+    <div class="container">
+        <div class="w-50 m-auto">
+            <!-- Default form register -->
+            <form class="text-center border border-light p-5" action="/signup" method="POST">
+
+                <p class="h4 mb-4">Sign up</p>
+
+                <% if (param == 'error') { %>
+                    <p class="text-danger">Error occur in proccess !</p>
+                <% } %>
+                <% if (param == 'existEmail') { %>
+                    <p class="text-danger">Email is exsiting in system !</p>
+                <% } %>
+                <% if (param == 'success') { %>
+                    <p class="text-success">You have been signup account <b> <%= email %> </b> !</p>
+                <% } %>
+                <div class="form-row mb-4">
+                    <div class="col">
+                        <!-- First name -->
+                        <input name="firstName" type="text" id="defaultRegisterFormFirstName" class="form-control"
+                               placeholder="First name">
+                    </div>
+                    <div class="col">
+                        <!-- Last name -->
+                        <input name="lastName" type="text" id="defaultRegisterFormLastName" class="form-control"
+                               placeholder="Last name">
+                    </div>
+                </div>
+
+                <!-- E-mail -->
+                <input  name="email" type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
+
+                <!-- Password -->
+                <input name="password" type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Password"
+                       aria-describedby="defaultRegisterFormPasswordHelpBlock">
+                <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+                    At least 8 characters and 1 digit
+                </small>
+
+                <!-- Phone number -->
+                <input name="phone" type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number"
+                       aria-describedby="defaultRegisterFormPhoneHelpBlock">
+                <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4">
+                    Optional - for two step authentication
+                </small>
+
+                <!-- Sign up button -->
+                <button class="btn btn-info my-4 btn-block" type="submit">Sign in</button>
+
+                <!-- Social register -->
+                <p>or <a href="/login">Login</a>:</p>
+
+                <a type="button" class="light-blue-text mx-2">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a type="button" class="light-blue-text mx-2">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a type="button" class="light-blue-text mx-2">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a type="button" class="light-blue-text mx-2">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                <hr>
+
+                <!-- Terms of service -->
+                <p>By clicking
+                    <em>Sign up</em> you agree to our
+                    <a href="" target="_blank">terms of service</a>
+
+            </form>
+            <!-- Default form register -->
+        </div>
+    </div>
+</div>
+</body>
+<%- include app-js.ejs %>
+</html>

@@ -1,0 +1,214 @@
+<!-- Basic example -->
+<div class="row">
+  <div class="col-md-12 mx-auto text-center">
+    <div class="card card-cascade narrower">
+
+      <!--Card image-->
+      <div
+        class="view view-cascade gradient-card-header purple-gradient narrower py-2 mx-2 mb-3 d-flex justify-content-center align-items-center">
+
+        <h4 class="white-text font-weight-bold text-uppercase mb-0">Danh sách người dùng</h4>
+
+      </div>
+      <!--/Card image-->
+
+      <div class="px-1">
+
+        <!--Table-->
+        <table class="table table-hover table-responsive-md mb-0">
+
+          <!--Table head-->
+          <thead>
+          <tr>
+            <th scope="row">#</th>
+            <th class="th-lg">Tên đăng nhập</th>
+            <th class="th-lg">Email</th>
+            <th class="th-lg">Số điện thoại</th>
+            <th class="th-lg">Ngày tạo</th>
+            <th class="th-lg">Chức năng</th>
+          </tr>
+          </thead>
+          <!--Table head-->
+
+          <!--Table body-->
+          <tbody>
+          <tr *ngFor="let data of tableData; let i = index">
+            <th px-3 *ngIf="data.id >= firstVisibleIndex && data.id <= lastVisibleIndex" scope="row">{{data.id}}</th>
+            <td *ngIf="data.id >= firstVisibleIndex && data.id <= lastVisibleIndex">{{data.firstName}}</td>
+            <td *ngIf="data.id >= firstVisibleIndex && data.id <= lastVisibleIndex">{{data.lastName}}</td>
+            <td *ngIf="data.id >= firstVisibleIndex && data.id <= lastVisibleIndex">{{data.username}}</td>
+            <td *ngIf="data.id >= firstVisibleIndex && data.id <= lastVisibleIndex">{{data.username}}</td>
+            <td *ngIf="data.id >= firstVisibleIndex && data.id <= lastVisibleIndex">
+              <span class="m-1 text-danger" (click)="deleteUser(data.id)"><i
+                class="fas fa-times-circle fa-2x"></i></span>
+              <span class="m-1 text-primary" (click)="editUser(data)"><i class="fas fa-edit fa-2x"></i></span>
+            </td>
+          </tr>
+          </tbody>
+          <!--Table body-->
+        </table>
+
+      </div>
+
+      <hr class="my-0">
+
+      <!--Bottom Table UI-->
+      <div class="d-flex justify-content-center">
+
+        <!--Pagination -->
+        <nav class="my-4 pt-2">
+          <ul class="pagination pagination-circle pg-purple mb-0">
+
+            <!--First-->
+            <li class="page-item clearfix d-none d-md-block" (click)="firstPage()"
+                [ngClass]="{disabled: activePage == 1}">
+              <a class="page-link">Trang đầu</a>
+            </li>
+
+            <!--Arrow left-->
+            <li class="page-item" (click)="previousPage()" [ngClass]="{disabled: activePage == 1}">
+              <a class="page-link" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Trước</span>
+              </a>
+            </li>
+
+            <!--Numbers-->
+            <li #pages *ngFor="let page of paginators | slice:firstVisiblePaginator:lastVisiblePaginator; let i = index"
+                class="page-item"
+                [ngClass]="{active: i + firstVisiblePaginator + 1 == activePage}">
+              <a class="page-link waves-light" (click)="changePage($event)" mdbWavesEffect>{{page}}</a>
+            </li>
+
+
+            <!--Arrow right-->
+            <li class="page-item" (click)="nextPage()" [ngClass]="{disabled: activePage == numberOfPaginators}">
+              <a class="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Tiếp</span>
+              </a>
+            </li>
+
+            <!--First-->
+            <li class="page-item clearfix d-none d-md-block" (click)="lastPage()"
+                [ngClass]="{disabled: activePage == numberOfPaginators}">
+              <a class="page-link">Trang cuối</a>
+            </li>
+
+          </ul>
+        </nav>
+        <!--/Pagination -->
+
+      </div>
+      <!--Bottom Table UI-->
+
+    </div>
+  </div>
+</div>
+
+<!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Bạn muốn xóa người dùng ?</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+
+        <i class="fas fa-times fa-4x animated rotateIn"></i>
+
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer flex-center">
+        <a href="" class="btn  btn-outline-danger">Xóa</a>
+        <a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">Hủy</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="modalDetailUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="overflow: auto; height: 500px">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Thông tin người dùng</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <!--Header-->
+        <div class="text-center">
+          <img style="height: 70px" src="https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg" alt="avatar"
+               class="rounded-circle img-responsive">
+        </div>
+        <h5 class="mt-1 mb-2 text-center">SangTigo</h5>
+        <!--Body-->
+        <div class="md-form form-sm mb-1">
+          <div class="row">
+            <!-- Grid column -->
+            <div class="col">
+              <!-- Material input -->
+              <div class="md-form mt-0">
+                <input type="text" class="form-control" placeholder="Họ đệm">
+              </div>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col">
+              <!-- Material input -->
+              <div class="md-form mt-0">
+                <input type="text" class="form-control" placeholder="Tên">
+              </div>
+            </div>
+            <!-- Grid column -->
+          </div>
+        </div>
+        <div class="md-form form-sm mb-1">
+          <i class="fas fa-user prefix grey-text"></i>
+          <input type="text" id="username" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="username">Tên đăng nhập</label>
+        </div>
+
+        <div class="md-form form-sm mb-1">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <input type="email" id="email" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="email">Email</label>
+        </div>
+
+        <div class="md-form form-sm mb-1">
+          <i class="fas fa-tag prefix grey-text"></i>
+          <input type="text" id="phone" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="phone">Số điện thoại</label>
+        </div>
+        <div class="md-form form-sm mb-1">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <input type="email" id="location" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="location">Nơi ở</label>
+        </div>
+        <div class="md-form form-sm mb-1">
+          <i class="fas fa-tag prefix grey-text"></i>
+          <input type="text" id="skype" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="phone">Skype</label>
+        </div>
+        <div class="md-form form-sm mb-1">
+          <i class="fas fa-envelope prefix grey-text"></i>
+          <input type="email" id="facebook" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="location">Link facebook</label>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-unique">Xác nhận<i class="fas fa-paper-plane-o ml-1"></i></button>
+      </div>
+    </div>
+  </div>
+</div>

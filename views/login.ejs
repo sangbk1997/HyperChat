@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chat App Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include app-css.ejs %>
+</head>
+<body>
+
+<div class="login-page">
+    <div class="container">
+        <div class="w-50 m-auto">
+            <!-- Default form login -->
+            <form class="text-center border border-light p-5" action="/login" method="POST">
+
+                <p class="h4 mb-4">Login</p>
+
+                <% if (param == 'empty') { %>
+                    <p class="text-danger">User don't exist in system !</p>
+                <% } %>
+                <% if (param == 'error') { %>
+                    <p class="text-danger">Invalid email or password !</p>
+                <% } %>
+                <% if (param == 'logout') { %>
+                    <p class="text-success">You have been logged out !</p>
+                <% } %>
+
+                <!-- Email -->
+                <input name="email" type="text" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+
+                <!-- Password -->
+                <input name="password" type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+
+                <div class="d-flex justify-content-around">
+                    <div>
+                        <!-- Remember me -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                            <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Forgot password -->
+                        <a href="">Forgot password?</a>
+                    </div>
+                </div>
+
+                <!-- Sign in button -->
+                <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+
+                <!-- Register -->
+                <p>Not a member?
+                    <a href="/signup">Sign Up</a>
+                </p>
+
+                <!-- Social login -->
+                <p>or sign in with:</p>
+
+                <a type="button" class="light-blue-text mx-2">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a type="button" class="light-blue-text mx-2">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a type="button" class="light-blue-text mx-2">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a type="button" class="light-blue-text mx-2">
+                    <i class="fab fa-github"></i>
+                </a>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<%- include app-js.ejs %>
+</html>
