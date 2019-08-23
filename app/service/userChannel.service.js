@@ -7,6 +7,7 @@ const userChannelStatic = require('../common/obj/objStatic/userChannelStatic');
 const messengerStatic = require('../common/obj/objStatic/messengerStatic');
 const channelStatic = require('../common/obj/objStatic/channelStatic');
 const commonStatic = require('../common/obj/objStatic/commonStatic');
+// const messengerService = require('./messenger.service');
 const messengerService = require('./messenger.service');
 const userService = require('./user.service');
 const redisService = require('./redis.service');
@@ -16,6 +17,9 @@ const baseDao = require('../dao/base.dao');
 const userChannelDao = require('../dao/userChannel.dao');
 const messengerDao = require('../dao/messenger.dao');
 const listModelType = require('../common/obj/modelType/listModelType');
+const TYPE_NEW_USER_CHANNEL = 'NEW_USER_CHANNEL';
+const TYPE_UPDATED_USER_CHANNEL = 'UPDATED_USER_CHANNEL';
+const TYPE_DELETED_USER_CHANNEL = 'DELETED_USER_CHANNEL';
 var userChannelService = {
     //
     // findAllByChannel(channelId) {
@@ -131,164 +135,163 @@ var userChannelService = {
     },
 
     async doCreateRequest(userId, channelId, typeChannel, userLogin) {
-        let user = baseDao.findById(userId, listModelType.modelTypeUser);
-        let channel = baseDao.findById(channelId, listModelType.modelTypeChannel);
-        let checkValidRequest = await Promise.all([user, channel]);
-        if ($bean.isNotEmpty(checkValidRequest) && $bean.isNotEmpty(checkValidRequest[0]) && $bean.isNotEmpty(checkValidRequest[1])) {
-            userService.setUpRequest(userLogin.email, checkValidRequest[0].email, checkValidRequest[1].title);
-            let triggerMessage = '';
-            let recieverMessage = '';
-            if (userId != userLogin.id) {
-                if (typeChannel === userChannelStatic.TYPE_CHAT_GROUP) {
-                    triggerMessage += commonStatic.messageStatic["request.message.trigger.add.user.to.channel"]();
-                    recieverMessage += commonStatic.messageStatic["request.message.reciever.add.user.to.channel"]();
-                } else {
-                    triggerMessage += commonStatic.messageStatic["request.message.trigger.add.contact"]();
-                    recieverMessage += commonStatic.messageStatic["request.message.reciever.add.user.to.channel"]();
-                }
-            } else {
-                triggerMessage += commonStatic.messageStatic["request.message.trigger.request.to.channel"]();
-                recieverMessage += commonStatic.messageStatic["request.message.reciever.request.to.channel"]();
-            }
+        let user = await baseDao.findById(userId, listModelType.modelTypeUser);
+        let channel = await baseDao.findById(channelId, listModelType.modelTypeChannel);
+        let lastUserChannel = await userChannelDao.lastUserChannel(userId);
+        if ($bean.isNotEmpty(user) && ($bean.isNotEmpty(channel) && $bean.isNotEmpty(lastUserChannel))) {
             let countMessengerByChannel = await messengerDao.countByChannel(channelId);
-            console.log('Số lượng tin nhắn đã có');
-            console.log(countMessengerByChannel);
             let objUserChannel = {
                 userId: userId,
                 channelId: channelId,
                 isAdmin: userChannelStatic.IS_NOT_ADMIN,
-                triggerMessage: triggerMessage,
-                recieverMessage: recieverMessage,
-                status: userChannelStatic.STATUS_PENDING,
                 action: (userId == userLogin.id) ? userChannelStatic.ACTION_READED : userChannelStatic.ACTION_UNREAD,
                 triggerId: userLogin.id,
                 typeChat: typeChannel,
-                // position: countMessengerByChannel,
-                position: 0,
-                notification: userChannelStatic.STATUS_NOTIFICATION,
-                modifiedDate: new Date()
+                position: countMessengerByChannel,
+                notification: userChannelStatic.STATUS_NOTIFICATION
+            }
+            let pushStreamObj = $bean.cloneJson(objUserChannel);
+            pushStreamObj['user'] = user;
+            redisService.pubStreamObj({
+                type: TYPE_NEW_USER_CHANNEL,
+                value: pushStreamObj,
+                channelId: channelId
+            });
+            redisService.pubStreamObj({
+                type: TYPE_NEW_USER_CHANNEL,
+                value: pushStreamObj,
+                channelId: lastUserChannel['channelId']
+            });
+            let messenger = {
+                userId: userLogin.id,
+                channelId: channelId,
+                message: userLogin.username + ' đã thêm ' + user.username + ' vào nhóm.',
+                type: messengerStatic.TYPE_TEXT,
+                status: messengerStatic.STATUS_ORIGINAL,
+                typeRole: messengerStatic.TYPE_ROLE_ATTACHED
             }
             let result = await baseDao.insert(objUserChannel, listModelType.modelTypeUserChannel);
+            messengerService.insertMessage(userLogin, messenger);
             return result;
         }
     },
 
-    async doAcceptRequest(requestId, userLogin) {
-        if ($bean.isNotEmpty(requestId)) {
-            let request = await baseDao.findById(requestId, listModelType.modelTypeUserChannel);
-            if ($bean.isNotEmpty(request)) {
-                let updateRequest = {
-                    id: requestId,
-                    status: userChannelStatic.STATUS_ACCEPTED,
-                    action: userChannelStatic.ACTION_READED,
-                    modifiedDate: new Date()
-                }
-                return baseDao.quickUpdate(updateRequest, listModelType.modelTypeUserChannel).then(function (updatedRequest) {
+    // async doAcceptRequest(requestId, userLogin) {
+    //     if ($bean.isNotEmpty(requestId)) {
+    //         let request = await baseDao.findById(requestId, listModelType.modelTypeUserChannel);
+    //         if ($bean.isNotEmpty(request)) {
+    //             let updateRequest = {
+    //                 id: requestId,
+    //                 action: userChannelStatic.ACTION_READED
+    //             }
+    //             return baseDao.quickUpdate(updateRequest, listModelType.modelTypeUserChannel).then(function (updatedRequest) {
+    //
+    //                 // Thêm thông tin message vào channel
+    //                 let message = '';
+    //                 if (updatedRequest['typeChat'] == userChannelStatic.TYPE_CHAT_GROUP) {
+    //                     message += userLogin.email + ' đã tham gia cuộc trò chuyện';
+    //                 } else {
+    //                     message += userLogin.email + ' đã chấp nhận yêu cầu kết nối với bạn';
+    //
+    //                     // //    Cập nhật trạng thái hoạt động của Chat
+    //                     // let channel = {
+    //                     //     id: request['channelId'],
+    //                     //     status: channelStatic.STATUS_ACTIVE,
+    //                     //     action: (request.userId == userLogin.id) ? userChannelStatic.ACTION_READED : userChannelStatic.ACTION_UNREAD
+    //                     // }
+    //                     // baseDao.quickUpdate(channel, listModelType.modelTypeChannel).then(function (updatedChannel) {
+    //                     //     console.log('Cập nhật trạng thái hoạt động của channel');
+    //                     //     console.log(updatedChannel);
+    //                     // })
+    //                 }
+    //
+    //                 let messenger = {
+    //                     userId: userLogin.id,
+    //                     channelId: request.channelId,
+    //                     message: message,
+    //                     type: messengerStatic.TYPE_TEXT,
+    //                     status: messengerStatic.STATUS_ORIGINAL,
+    //                     typeRole: messengerStatic.TYPE_ROLE_NOTIFIED
+    //                 }
+    //
+    //                 messengerService.doInsertMessenger(userLogin, messenger).then(function (data) {
+    //                     console.log('Message được thông báo khi chấp nhận request ');
+    //                     console.log(data);
+    //                 })
+    //                 // //    Tạo liên kết giữa user - friends
+    //                 // userChannelService.findAcceptedByChannel(request.channelId).then(function (userChannels) {
+    //                 //     if ($bean.isNotEmpty(userChannels)) {
+    //                 //         for (let i = 0; i < userChannels.length; i++) {
+    //                 //             console.log('Tạo liên kết user - user');
+    //                 //             if (userChannels[i].userId != updatedRequest.userId) {
+    //                 //                 let objUserFriend = {
+    //                 //                     userId: data.userId,
+    //                 //                     friendId: userChannels[i].userId,
+    //                 //                     channelId: (request.typeChat == userChannelStatic.TYPE_CHAT_CONTACT) ? updatedRequest.channelId : null,
+    //                 //                     intimacy: (request.typeChat == userChannelStatic.TYPE_CHAT_CONTACT) ? userFriendStatic.INTIMACY_HEIGHT : userFriendStatic.INTIMACY_MEDIUM,
+    //                 //                     modifiedDate: new Date()
+    //                 //                 }
+    //                 //                 baseDao.insert(objUserFriend, modelTypeUserFriend).then(function (userFriend) {
+    //                 //                     console.log('You have link to user !');
+    //                 //                     console.log(userFriend);
+    //                 //                 })
+    //                 //             }
+    //                 //         }
+    //                 //     }
+    //                 // })
+    //                 return updatedRequest;
+    //             })
+    //         }
+    //     }
+    // },
 
-                    // Thêm thông tin message vào channel
-                    let message = '';
-                    if (updatedRequest['typeChat'] == userChannelStatic.TYPE_CHAT_GROUP) {
-                        message += userLogin.email + ' đã tham gia cuộc trò chuyện';
-                    } else {
-                        message += userLogin.email + ' đã chấp nhận yêu cầu kết nối với bạn';
-
-                        //    Cập nhật trạng thái hoạt động của Chat
-                        let channel = {
-                            id: request['channelId'],
-                            status: channelStatic.STATUS_ACTIVE,
-                            action: (request.userId == userLogin.id) ? userChannelStatic.ACTION_READED : userChannelStatic.ACTION_UNREAD
-                        }
-                        baseDao.quickUpdate(channel, listModelType.modelTypeChannel).then(function (updatedChannel) {
-                            console.log('Cập nhật trạng thái hoạt động của channel');
-                            console.log(updatedChannel);
-                        })
-                    }
-
-                    let messenger = {
-                        userId: userLogin.id,
-                        channelId: request.channelId,
-                        message: message,
-                        type: messengerStatic.TYPE_TEXT,
-                        status: messengerStatic.STATUS_ORIGINAL,
-                        typeRole: messengerStatic.TYPE_ROLE_NOTIFIED
-                    }
-
-                    messengerService.doInsertMessenger(userLogin, messenger).then(function (data) {
-                        console.log('Message được thông báo khi chấp nhận request ');
-                        console.log(data);
-                    })
-                    // //    Tạo liên kết giữa user - friends
-                    // userChannelService.findAcceptedByChannel(request.channelId).then(function (userChannels) {
-                    //     if ($bean.isNotEmpty(userChannels)) {
-                    //         for (let i = 0; i < userChannels.length; i++) {
-                    //             console.log('Tạo liên kết user - user');
-                    //             if (userChannels[i].userId != updatedRequest.userId) {
-                    //                 let objUserFriend = {
-                    //                     userId: data.userId,
-                    //                     friendId: userChannels[i].userId,
-                    //                     channelId: (request.typeChat == userChannelStatic.TYPE_CHAT_CONTACT) ? updatedRequest.channelId : null,
-                    //                     intimacy: (request.typeChat == userChannelStatic.TYPE_CHAT_CONTACT) ? userFriendStatic.INTIMACY_HEIGHT : userFriendStatic.INTIMACY_MEDIUM,
-                    //                     modifiedDate: new Date()
-                    //                 }
-                    //                 baseDao.insert(objUserFriend, modelTypeUserFriend).then(function (userFriend) {
-                    //                     console.log('You have link to user !');
-                    //                     console.log(userFriend);
-                    //                 })
-                    //             }
-                    //         }
-                    //     }
-                    // })
-                    return updatedRequest;
-                })
-            }
-        }
-    },
-
-    async doRejectRequest(requestId) {
-        if ($bean.isNotEmpty(requestId)) {
-            let request = await baseDao.findById(requestId, listModelType.modelTypeUserChannel);
-            if ($bean.isNotEmpty(request)) {
-                let updateRequest = {
-                    id: requestId,
-                    status: userChannelStatic.STATUS_REJECTED,
-                    modifiedDate: new Date()
-                }
-                let result = await baseDao.quickUpdate(updateRequest, listModelType.modelTypeUserChannel);
-                console.log('Từ chối request ');
-                console.log(result);
-                return result;
-            }
-        }
-    },
+    // async doRejectRequest(requestId) {
+    //     if ($bean.isNotEmpty(requestId)) {
+    //         let request = await baseDao.findById(requestId, listModelType.modelTypeUserChannel);
+    //         if ($bean.isNotEmpty(request)) {
+    //             let updateRequest = {
+    //                 id: requestId,
+    //                 status: userChannelStatic.STATUS_REJECTED,
+    //                 modifiedDate: new Date()
+    //             }
+    //             let result = await baseDao.quickUpdate(updateRequest, listModelType.modelTypeUserChannel);
+    //             console.log('Từ chối request ');
+    //             console.log(result);
+    //             return result;
+    //         }
+    //     }
+    // },
 
     async deleteRequest(requestId, userLogin) {
+        let result = {};
         let request = await baseDao.findById(requestId, listModelType.modelTypeUserChannel);
         if ($bean.isNotEmpty(request)) {
-            let result = await baseDao.delete(requestId, listModelType.modelTypeUserChannel);
-            console.log('Xóa link user - channel');
-            // Nếu người dùng trong nhóm thì phải thông báo khi rời khỏi nhóm hoặc bị xóa bỏ
-            if (request['status'] == userChannelStatic.STATUS_ACCEPTED) {
-                let message = '';
-                if (request['userId'] == userLogin.id) {
-                    message += userLogin.email + ' đã rời khỏi nhóm chat !';
-                } else {
-                    let user = await baseDao.findById(request['userId'], listModelType.modelTypeUser);
-                    message += userLogin.email + ' đã xóa ' + user.email + ' khỏi nhóm !';
-                }
-                let messenger = {
-                    userId: userLogin.id,
-                    channelId: request['channelId'],
-                    message: message,
-                    type: messengerStatic.TYPE_TEXT,
-                    typeRole: messengerStatic.TYPE_ROLE_NOTIFIED
-                }
-                messengerService.doInsertMessenger(userLogin, messenger).then(function (data) {
-                    console.log('Gửi thông báo khi có người rời nhóm chat');
-                    console.log(data);
-                })
+            redisService.pubStreamObj({
+                type: TYPE_DELETED_USER_CHANNEL,
+                value: request,
+                channelId: request['channelId']
+            });
+
+            let message = '';
+            if (request['userId'] == userLogin.id) {
+                message += userLogin.email + ' đã rời khỏi nhóm chat !';
+            } else {
+                let user = await baseDao.findById(request['userId'], listModelType.modelTypeUser);
+                message += userLogin.email + ' đã xóa ' + user.username + ' khỏi nhóm ';
             }
-            return result;
+            let messenger = {
+                userId: userLogin.id,
+                channelId: request['channelId'],
+                message: message,
+                type: messengerStatic.TYPE_TEXT,
+                typeRole: messengerStatic.TYPE_ROLE_NOTIFIED
+            }
+            console.log('Messenger service');
+            console.log(messengerService);
+            messengerService.insertMessage(userLogin, messenger);
+            result = await baseDao.delete(requestId, listModelType.modelTypeUserChannel);
         }
+        return result;
     },
 
     async getLinkUserChannel(userId, channelId) {
@@ -358,6 +361,18 @@ var userChannelService = {
         return result;
     },
 
+    getByUser(userId) {
+        return userChannelDao.listByUser(userId);
+    },
+
+    getByChannel(channelId) {
+        return userChannelDao.listByChannel(channelId);
+    },
+
+    extraInfoUserByChannel(channelId) {
+        return userChannelDao.extraInfoUserByChannel(channelId);
+    },
+
     async removeUser(userId, channelId, userLogin) {
         let result = {};
         let userChannel = await userChannelDao.findUserChannel(userId, channelId);
@@ -371,6 +386,18 @@ var userChannelService = {
 
     countByUserNotRejected(userId) {
         return userChannelDao.countByUserNotRejected(userId);
+    },
+
+    async updateViewMessengers(userChannel) {
+        let countMessengers = await messengerDao.countByChannel(userChannel['channelId']);
+        let cloneObj = $bean.cloneJson(userChannel);
+        cloneObj['unReadMessengers'] = (countMessengers > userChannel['position']) ? (countMessengers - userChannel['position']) : 0
+        redisService.pubStreamObj({
+            type: TYPE_UPDATED_USER_CHANNEL,
+            value: cloneObj,
+            channelId: userChannel['channelId']
+        });
+        return baseDao.update(userChannel, listModelType.modelTypeUserChannel);
     }
 }
 

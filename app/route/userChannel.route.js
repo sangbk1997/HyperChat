@@ -57,6 +57,33 @@ module.exports = function (app) {
         })
     });
 
+    app.post('/userChannels/listByUser', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        console.log('User session');
+        console.log(req);
+        let sessionId = (req.body.userId) ? req.body.userId : req.session.user.id;
+        // userChannelService.getByUser(req.session.user.id).then(function (data) {
+        //     res.json(data);
+        // })
+        userChannelService.getByUser(sessionId).then(function (data) {
+            res.json(data);
+        })
+    });
+
+    app.post('/userChannels/listByChannel', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        userChannelService.getByChannel(req.body.channelId).then(function (data) {
+            res.json(data);
+        })
+    });
+
+    app.post('/userChannels/extraInfoUserByChannel', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        userChannelService.extraInfoUserByChannel(req.body.channelId).then(function (data) {
+            res.json(data);
+        })
+    });
+
     app.post('/userChannels/countByNotRejected', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
         userChannelService.countByUserNotRejected(req.session.user.id).then(function (data) {
@@ -67,6 +94,13 @@ module.exports = function (app) {
     app.post('/userChannels/countByNotRejected', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
         userChannelService.countByUserNotRejected(req.session.user.id).then(function (data) {
+            res.json(data);
+        })
+    });
+
+    app.post('/userChannels/updateViewMessengers', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        userChannelService.updateViewMessengers(req.body).then(function (data) {
             res.json(data);
         })
     });

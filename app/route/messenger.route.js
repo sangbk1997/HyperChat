@@ -97,16 +97,16 @@ module.exports = function (app) {
         })
     })
 
-    app.post('/messengers/byChannel', function (req, res) {
+    app.post('/messengers/exampleMessengers', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        messengerService.messagesByChannel(req.body.channelId, req.body.number, req.body.offset).then(function (data) {
+        messengerService.exampleMessengers(req.body.channelId, req.body.oldMessengers, req.body.newMessengers, req.body.offset).then(function (data) {
             res.json(data);
         })
     });
 
     app.post('/messengers/moreMessengers', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        messengerService.loadMoreMessengers(req.session.user.id, req.body.channelId, req.body.number, req.body.offset).then(function (data) {
+        messengerService.loadMoreMessengers(req.body.channelId, req.body.number, req.body.offset).then(function (data) {
             res.json(data);
         })
     });
@@ -114,6 +114,13 @@ module.exports = function (app) {
     app.post('/messengers/previousMessengers', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
         messengerService.loadPreviousMessengers(req.body.channelId, req.body.number, req.body.offset).then(function (data) {
+            res.json(data);
+        })
+    });
+
+    app.post('/messengers/countByChannel', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        messengerService.countByChannel(req.body.channelId).then(function (data) {
             res.json(data);
         })
     });

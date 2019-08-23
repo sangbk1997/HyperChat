@@ -3,7 +3,6 @@ module.exports = (sequelize, Sequelize) => {
     const Emoji = sequelize.define('emojis', {
         [emojiModel.id.title]: {
             type: Sequelize.STRING,
-            defaultValue: Sequelize.UUIDV1,
             primaryKey: true
         },
         [emojiModel.name.title]: {

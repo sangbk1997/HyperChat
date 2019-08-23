@@ -144,9 +144,11 @@ var userDao = {
 
     async countAllUsers() {
         console.log('Count All Users');
-        let result = await User.findAll({
+        let arrays = await User.findAll({
             attributes: [[Sequelize.fn('COUNT', Sequelize.col('id')), 'count']]
         });
+        let result = {count: arrays[0].dataValues.count};
+        console.log(result);
         return result;
     },
 

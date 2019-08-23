@@ -5,7 +5,6 @@ module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define('users', {
             [userModel.id.title]: {
                 type: Sequelize.STRING,
-                defaultValue: Sequelize.UUIDV1,
                 primaryKey: true
             },
             [userModel.username.title]: {

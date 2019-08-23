@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const sequelizeDB = require('../common/config/db.config').sequelize;
 const db = require('../common/config/db.config.js');
 const UserChannel = db.userChannel;
+const User = db.user;
 const Op = Sequelize.Op;
 const listModelType = require('../common/obj/modelType/listModelType');
 const baseDao = require('./base.dao');
@@ -37,16 +38,6 @@ var userChannelDao = {
         console.log(result);
         return result;
     },
-
-    async deleteAllByChannel(channelId) {
-        let result = {};
-        let rowAffected = await UserChannel.destroy({where: {channelId: channelId}});
-        if ($bean.isNotNil(rowAffected)) {
-            result = {message: 'Delete all user-channel by channel success !'};
-        }
-        return result;
-    },
-
     // liệt kê tất cả các request đã gửi
 
     async listSentRequest(userId, number, offset) {
@@ -126,12 +117,47 @@ var userChannelDao = {
         return result;
     },
 
-    async listByNotRejected(userId) {
+    // async listByNotRejected(userId) {
+    //     let result = await UserChannel.findAll({
+    //         where: {[Op.and]: [{'userId': userId}, {'status': {[Op.ne]: userChannelstatic.STATUS_REJECTED}}]}
+    //     });
+    //     console.log('ChannelId result :');
+    //     console.log(result[0]);
+    //     return result;
+    // },
+
+
+    async listByUser(userId) {
         let result = await UserChannel.findAll({
-            where: {[Op.and]: [{'userId': userId}, {'status': {[Op.ne]: userChannelstatic.STATUS_REJECTED}}]}
+            where: {'userId': userId}
         });
-        console.log('ChannelId result :');
-        console.log(result[0]);
+        return result;
+    },
+
+    async listByChannel(channelId) {
+        let result = await UserChannel.findAll({
+            where: {'channelId': channelId}
+        });
+        return result;
+    },
+
+    async extraInfoUserByChannel(channelId) {
+        let result = await UserChannel.findAll({
+            where: {'channelId': channelId},
+            include: {
+                model: User
+            }
+        });
+        return result;
+    },
+
+    async lastUserChannel(userId) {
+        let result = await UserChannel.findOne({
+            where: {'userId': userId},
+            limit: 1,
+            offset: 0,
+            order: [['createdAt', 'DESC']]
+        });
         return result;
     },
 
@@ -144,6 +170,7 @@ var userChannelDao = {
     },
 
     async updateLastReadMessenger(userLoginId, channelId, newPosition, messengerId) {
+
         let result = {};
         let userChannel = await UserChannel.findOne({
             where: {[Op.and]: [{userId: userLoginId}, {channelId: channelId}]}

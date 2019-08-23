@@ -71,7 +71,7 @@ var messengerDao = {
     // },
     //
     // loadMoreMessage(channelId, number, offset) {
-    //     messengerService.getMessageByChannel(channelId, number, offset).then(function (data) {
+    //     messengerService.getMessengerByChannel(channelId, number, offset).then(function (data) {
     //         // Cập nhật trạng thái react của user - messenger
     //         if ($bean.isNotEmpty(data)) {
     //             for (let i = 0; i < data.length; i++) {
@@ -107,42 +107,7 @@ var messengerDao = {
         return result;
     },
 
-    async getMessageByChannel(channelId, number, offset) {
-        // let channel = await baseDao.findById(channelId, listModelType.modelTypeChannel);
-        // let result = [];
-        // if ($bean.isNotEmpty(channel)) {
-        //     if (!($bean.isNumber(number) && $bean.isNumber(offset))) {
-        //         number = 10;
-        //         offset = 0
-        //     }
-        //     let rawQuery =
-        //         "SELECT * " +
-        //         "FROM Messengers " +
-        //         "INNER JOIN Users ON (Messengers.userId = Users.id ) " +
-        //         "WHERE Messengers.channelId = :channelId" +
-        //         "ORDER BY UserChannels.createdAt DESC " +
-        //         "LIMIT = :limit OFFSET = :offset"
-        //     ;
-        //     let result = await sequelizeDB.query(rawQuery,
-        //         {
-        //             replacements: {channelId: channelId, limit: number, offset: offset},
-        //             type: Sequelize.QueryTypes.SELECT
-        //         }
-        //     )
-        // return result;
-        // if ($bean.isNumber(number) && $bean.isNumber(offset)) {
-        //     result = await Messenger.findAll({
-        //         where: {channelId: channelId},
-        //         limit: number,
-        //         offset: offset,
-        //         order: [['createdAt', 'DESC']]
-        //     });
-        // } else {
-        //     result = await Messenger.findAll({where: {channelId: channelId}, order: [['createdAt', 'DESC']]});
-        // }
-        // }
-        // return result;
-
+    async getMessengerByChannel(channelId, number, offset) {
         let result = [];
         result = await Messenger.findAll({
             where: {channelId: channelId},
@@ -159,11 +124,78 @@ var messengerDao = {
             ],
             limit: number,
             offset: offset,
-            // order: [['createdAt', 'ASC']],
-            order: [['createdAt', 'DESC']],
+            order: [['createdAt', 'ASC']]
+            // order: [['createdAt', 'DESC']],
         })
         return result;
-        // return result.reverse();
+    },
+
+    async getPreviousMessengers(channelId, number, offset) {
+        let result = [];
+        console.log('Loadprevisou');
+        console.log(channelId);
+        console.log(number);
+        console.log(offset);
+        if ($bean.isNumber(number) && $bean.isNumber(offset)) {
+            if ((offset != 0) && (number != 0)) {
+                number = ((offset - number) > 0) ? number : offset;
+                offset = ((offset - number) > 0) ? (offset - number) : 0;
+                console.log('Loadprevisou into');
+                console.log(channelId);
+                console.log(number);
+                console.log(offset);
+                result = await Messenger.findAll({
+                    where: {channelId: channelId},
+                    include: [
+                        {
+                            model: User
+                        },
+                        {
+                            model: UserMessenger,
+                            include: [{
+                                model: User
+                            }]
+                        }
+                    ],
+                    limit: number,
+                    offset: offset,
+                    order: [['createdAt', 'ASC']]
+                })
+            }
+        }
+        return result;
+    },
+
+    async getMoreMessengers(channelId, number, offset) {
+        console.log('Loadmore init');
+        console.log(channelId);
+        console.log(number);
+        console.log(offset);
+        let result = [];
+        if ($bean.isNumber(number) && $bean.isNumber(offset) && (number != 0)) {
+            console.log('Loadmore indeep');
+            console.log(channelId);
+            console.log(number);
+            console.log(offset);
+            result = await Messenger.findAll({
+                where: {channelId: channelId},
+                include: [
+                    {
+                        model: User
+                    },
+                    {
+                        model: UserMessenger,
+                        include: [{
+                            model: User
+                        }]
+                    }
+                ],
+                limit: number,
+                offset: offset,
+                order: [['createdAt', 'ASC']]
+            })
+        }
+        return result;
     },
 
     async countByChannel(channelId) {

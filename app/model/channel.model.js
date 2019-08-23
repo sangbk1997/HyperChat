@@ -37,10 +37,6 @@ var channelModel = {
         title: 'type',
         value: undefined
     },
-    finishWorkingTime: {
-        title: 'finishWorkingTime',
-        value: undefined
-    },
     // định nghĩa style cho group
     style: {
         title: 'style',

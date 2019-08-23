@@ -18,9 +18,14 @@ const baseDao = require('../dao/base.dao');
 const userDao = require('../dao/user.dao');
 const channelDao = require('../dao/channel.dao');
 const userChannelDao = require('../dao/userChannel.dao');
-const messengerService = require('./messenger.service');
+const messengerDao = require('../dao/messenger.dao');
 const redisService = require('./redis.service');
 const listModelType = require('../common/obj/modelType/listModelType');
+let useragent = require('useragent');
+let jwt = require('jsonwebtoken');
+let jwt_secret = require('../common/config/env').JWT_SECRET;
+let middleware = require('../common/middleware/JWT_authentication');
+var MobileDetect = require('mobile-detect')
 var userService = {
 
 //   New Code
@@ -58,6 +63,65 @@ var userService = {
         }
     },
 
+    // async mobileLogin(req, res) {
+    //     let result = {};
+    //     if ($bean.isNotNil(email)) {
+    //         let user = await userDao.findByEmail(email);
+    //         if ($bean.isNotEmpty(user) && bcrypt.compareSync(password, user.password)) {
+    //             req.session.user = user.dataValues;
+    //             result = user;
+    //         }
+    //     } else {
+    //         throw new Error('error.user.null');
+    //     }
+    //     return result;
+    // },
+
+    async mobileLogin(req, res) {
+        let result = {};
+        if ($bean.isNotNil(req.body)) {
+            let email = req.body.email;
+            let password = req.body.password;
+            let user = await userDao.findByEmail(email);
+            if ($bean.isNotEmpty(user) && bcrypt.compareSync(password, user.password)) {
+                // req.session.user = user.dataValues;
+                // console.log('Success login mobile');
+                // console.log(req.session);
+                // result = user;
+
+                let token = jwt.sign({
+                    userId: user.id
+                }, jwt_secret, {
+                    expiresIn: '24h'
+                })
+
+                // return the JWT token for the future API calls
+
+                result = {
+                    success: true,
+                    message: 'Authentication successful !',
+                    token: token
+                }
+
+                baseDao.quickUpdate({
+                    id: req.session.user.id,
+                    statusLogin: userStatic.STATUS_LOGIN
+                }, listModelType.modelTypeUser).then(function (user) {
+                    console.log('Success update login mobile');
+                    console.log(user);
+                }).catch(function (err) {
+                    console.log(err);
+                })
+            }
+        } else {
+            result = {
+                success: false,
+                message: 'Incorrect username or password'
+            }
+        }
+        return result;
+    },
+
     signUp(req, res) {
         if ($bean.isNotEmpty(req.body)) {
             userDao.findByEmail(req.body.email).then(function (data) {
@@ -67,6 +131,19 @@ var userService = {
                     req.session['statusSignup'] = 'existEmail';
                     res.render('signup', {'param': req.session['statusSignup']});
                 } else {
+                    var agent = useragent.parse(req.headers['user-agent']);
+                    console.log('Agent');
+                    console.log(agent);
+                    console.log(agent.toVersion()); // '15.0.874'
+                    console.log(agent.toJSON());
+                    console.log('OS')
+                    console.log(agent.os.toString());
+                    console.log(agent.os.toVersion());
+                    console.log(agent.os.toJSON());
+                    console.log('Device');
+                    console.log(agent.device.toString());
+                    console.log(agent.device.toVersion());
+                    console.log(agent.device.toJSON());
                     var userObj = {};
                     for (key in listModelType.modelTypeUser.mapObj) {
                         userObj[listModelType.modelTypeUser.mapObj[key].title] = req.body[key];
@@ -91,6 +168,47 @@ var userService = {
         } else {
             throw new Error('error.user.null');
         }
+    },
+
+    async mobileSignUp(req, res) {
+        let result = {};
+        if ($bean.isNotEmpty(req.body)) {
+            let foundUser = await userDao.findByEmail(req.body.email);
+            if ($bean.isNotEmpty(foundUser)) {
+                console.log('Email exist ?');
+                console.log(foundUser);
+                result = {error: 'user is exist'};
+            } else {
+                var agent = useragent.parse(req.headers['user-agent']);
+                console.log('Agent');
+                console.log(req.headers['user-agent']);
+                console.log(req);
+                var md = new MobileDetect(req.headers['user-agent']);
+                console.log( md.mobile() );          // 'Sony'
+                console.log( md.phone() );           // 'Sony'
+                console.log( md.tablet() );          // null
+                console.log( md.userAgent() );       // 'Safari'
+                console.log( md.os() );              // 'AndroidOS'
+                console.log( md.is('iPhone') );      // false
+                console.log( md.is('bot') );         // false
+                console.log( md.version('Webkit') );         // 534.3
+                console.log( md.versionStr('Build') );       // '4.1.A.0.562'
+                console.log( md.match('playstation|xbox') ); // false
+                var userObj = {};
+                for (key in listModelType.modelTypeUser.mapObj) {
+                    userObj[listModelType.modelTypeUser.mapObj[key].title] = req.body[key];
+                }
+                userObj['isadmin'] = userStatic.IS_NOT_ADMIN;
+                userObj['status'] = userStatic.STATUS_ACTIVE;
+                userObj['statuslogin'] = userStatic.STATUS_LOGOUT;
+                userObj['fullname'] = userObj['firstname'] + ' ' + userObj['lastname'];
+                userObj['username'] = userObj['fullname'];
+                result = await baseDao.insert(userObj, listModelType.modelTypeUser);
+            }
+        } else {
+            throw new Error('error.user.null');
+        }
+        return result;
     },
 
     logOut(req, res) {
@@ -361,7 +479,7 @@ var userService = {
     async searchChatsAndContacts(value, number, offset) {
         let searchUsers = await userService.searchUsers(value, number, offset);
         let searchChannel = await channelDao.searchByUser()
-    }
+    },
 
     // sendMesssage(userId, messenger) {
     //     //    Gửi message realtime lên kênh
@@ -370,7 +488,18 @@ var userService = {
     //     return messengerService.insertMessage(userId, messenger);
     // }
 
-
+    async checkLoadMessengers(userId, channelId) {
+        let result = {};
+        let linkUserChannel = await userChannelDao.findUserChannel(userId, channelId);
+        if ($bean.isNotEmpty(linkUserChannel)) {
+            let countMessengersByChannel = await messengerDao.countByChannel(channelId);
+            result = {
+                position: linkUserChannel.position,
+                countMessengers: countMessengersByChannel
+            }
+        }
+        return result;
+    },
 }
 
 module.exports = userService;

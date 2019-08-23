@@ -3,7 +3,6 @@ module.exports = (sequelize, Sequelize) => {
     const Messenger = sequelize.define('messengers', {
         [messengerModel.id.title]: {
             type: Sequelize.STRING,
-            defaultValue: Sequelize.UUIDV1,
             primaryKey: true
         },
         [messengerModel.userId.title]: {

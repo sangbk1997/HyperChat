@@ -18,6 +18,9 @@ var baseDao = {
             for (key in modelType.mapObj) {
                 objStorage[modelType.mapObj[key].title] = value[key];
             }
+            if ($bean.isEmpty(objStorage['id'])) {
+                objStorage['id'] = $bean.genRandomID(16).toString();
+            }
             result = await modelType.mapTable.create(objStorage);
             // let randomKey = $bean.genRandomID(16);
             // let resultSaveToRedis = await redisApp.set(randomKey, $bean.getJson(objStorage));
@@ -98,7 +101,7 @@ var baseDao = {
         if ($bean.isNotEmpty(oldObj)) {
             var objStorage = {};
             // Kiem tra doi tuong gui len la cua nguoi dung hay doi tuong duoc database tra ve
-            if($bean.isNotEmpty(newObj['dataValues'])){
+            if ($bean.isNotEmpty(newObj['dataValues'])) {
                 newObj = newObj['dataValues'];
             }
             for (key in newObj) {

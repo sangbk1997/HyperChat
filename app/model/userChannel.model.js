@@ -27,12 +27,7 @@ var userChannelModel = {
         title: 'recieverMessage',
         value: undefined
     },
-    // pending, discard, reject, accept, delete
-    status: {
-        title: 'status',
-        value: undefined
-    },
-    // unread, read, react
+    // unread, read
     action: {
         title: 'action',
         value: undefined
@@ -56,10 +51,6 @@ var userChannelModel = {
     },
     notification: {
         title: 'notification',
-        value: undefined
-    },
-    modifiedDate: {
-        title: 'modifiedDate',
         value: undefined
     }
 }

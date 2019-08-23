@@ -10,6 +10,7 @@ const Op = Sequelize.Op;
 const listModelType = require('../common/obj/modelType/listModelType');
 const baseDao = require('./base.dao');
 const userChannelDao = require('./userChannel.dao');
+const messengerDao = require('./messenger.dao');
 var channelStatic = require('../common/obj/objStatic/channelStatic');
 var userChannelStatic = require('../common/obj/objStatic/userChannelStatic');
 var userMessengerStatic = require('../common/obj/objStatic/userMessengerStatic');
@@ -18,12 +19,12 @@ var $bean = require('../common/utils/hyd-bean-utils');
 var channelDao = {
 
     async countSearch(userId, value) {
-        let listNotRejectedUserChannels = await userChannelDao.listByNotRejected(userId);
+        let userChannelsByUser = await userChannelDao.listByNotRejected(userId);
         let result = [];
-        if ($bean.isNotEmpty(listNotRejectedUserChannels)) {
+        if ($bean.isNotEmpty(userChannelsByUser)) {
             let channelIds = [];
-            for (let i = 0; i < listNotRejectedUserChannels.length; i++) {
-                channelIds.push(listNotRejectedUserChannels[i].channelId);
+            for (let i = 0; i < userChannelsByUser.length; i++) {
+                channelIds.push(userChannelsByUser[i].channelId);
             }
             console.log('List channelId by user ');
             console.log(channelIds);
@@ -48,12 +49,12 @@ var channelDao = {
             number = 10;
             offset = 0;
         }
-        let listNotRejectedUserChannels = await userChannelDao.listByNotRejected(userId);
+        let userChannelsByUser = await userChannelDao.listByNotRejected(userId);
         let result = [];
-        if ($bean.isNotEmpty(listNotRejectedUserChannels)) {
+        if ($bean.isNotEmpty(userChannelsByUser)) {
             let channelIds = [];
-            for (let i = 0; i < listNotRejectedUserChannels.length; i++) {
-                channelIds.push(listNotRejectedUserChannels[i].channelId);
+            for (let i = 0; i < userChannelsByUser.length; i++) {
+                channelIds.push(userChannelsByUser[i].channelId);
             }
             console.log('List channelId by user ');
             console.log(channelIds);
@@ -101,76 +102,19 @@ var channelDao = {
     },
 
 
-    async listByUser(userId, number, offset) {
-        // let rawQuery = '';
-        // let optionReplacements = {};
-        // // if (!($bean.isNumber(number) && $bean.isNumber(offset))) {
-        // //     rawQuery += "SELECT * " +
-        // //         "FROM Channels " +
-        // //         "INNER JOIN UserChannels " +
-        // //         "ON (Channels.id = UserChannels.channelId) " +
-        // //         "WHERE (UserChannels.userId = :userId AND UserChannels.status != :status) " +
-        // //         "ORDER BY Channels.finishWorkingTime DESC ";
-        // //     optionReplacements = {userId: userId, status: userChannelStatic.STATUS_REJECTED};
-        // // } else {
-        // //     rawQuery += "SELECT * " +
-        // //         "FROM Channels " +
-        // //         "INNER JOIN UserChannels " +
-        // //         "ON (Channels.id = UserChannels.channelId) " +
-        // //         "WHERE (UserChannels.userId = :userId AND UserChannels.status != :status) " +
-        // //         "ORDER BY Channels.finishWorkingTime DESC " +
-        // //         "LIMIT :limit OFFSET :offset";
-        // //     optionReplacements = {
-        // //         userId: userId,
-        // //         status: userChannelStatic.STATUS_REJECTED,
-        // //         limit: number,
-        // //         offset: offset
-        // //     };
-        // //
-        // // }
-        // if (!($bean.isNumber(number) && $bean.isNumber(offset))) {
-        //     rawQuery += "SELECT * " +
-        //         "FROM Channels " +
-        //         "INNER JOIN UserChannels" +
-        //         "ON Channels.id = Userchannels.channelId" +
-        //         "WHERE Channels.id IN ( SELECT UserChannels.channelId FROM UserChannels WHERE (UserChannels.userId = :userId AND UserChannels.status != :status)) " +
-        //         "ORDER BY Channels.finishWorkingTime DESC ";
-        //     optionReplacements = {userId: userId, status: userChannelStatic.STATUS_REJECTED};
-        // } else {
-        //     rawQuery += "SELECT * " +
-        //         "FROM Channels " +
-        //         "WHERE Channels.id IN ( SELECT UserChannels.channelId FROM UserChannels WHERE (UserChannels.userId = :userId AND UserChannels.status != :status)) " +
-        //         "ORDER BY Channels.finishWorkingTime DESC " +
-        //         "LIMIT :limit OFFSET :offset";
-        //     optionReplacements = {
-        //         userId: userId,
-        //         status: userChannelStatic.STATUS_REJECTED,
-        //         limit: number,
-        //         offset: offset
-        //     };
-        //
-        // }
-        // let result = await sequelizeDB.query(rawQuery,
-        //     {
-        //         replacements: optionReplacements,
-        //         type: Sequelize.QueryTypes.SELECT
-        //     }
-        // )
-
-        let listNotRejectedUserChannels = await userChannelDao.listByNotRejected(userId);
-        let result = [];
-        if ($bean.isNotEmpty(listNotRejectedUserChannels)) {
+    async listByUser(userId, number) {
+        let userChannelsByUser = await userChannelDao.listByUser(userId);
+        let returnChannels = [];
+        let foundChannels = [];
+        if ($bean.isNotEmpty(userChannelsByUser)) {
             let channelIds = [];
-            for (let i = 0; i < listNotRejectedUserChannels.length; i++) {
-                channelIds.push(listNotRejectedUserChannels[i].channelId);
+            for (let i = 0; i < userChannelsByUser.length; i++) {
+                channelIds.push(userChannelsByUser[i].channelId);
             }
             console.log('List channelId by user ');
             console.log(channelIds);
-            result = await Channel.findAll({
+            foundChannels = await Channel.findAll({
                 where: {id: {[Op.in]: channelIds}},
-                // attributes: {
-                //     include: [[Sequelize.fn("COUNT", Sequelize.col("UserMessengers.id")), "count_new_messenger"]]
-                // },
                 include: [
                     {
                         model: User,
@@ -185,6 +129,108 @@ var channelDao = {
                 ],
                 order: [['createdAt', 'DESC']]
             });
+        }
+        if ($bean.isNumber(number) && (number > 0)) {
+            if (number > foundChannels.length) {
+                number = foundChannels.length;
+            }
+            for (let i = 0; i < number; i++) {
+                returnChannels.push(foundChannels[i]);
+            }
+        }
+        let result = {
+            availbleNumber: foundChannels.length,
+            channels: returnChannels
+        }
+        return result;
+    },
+
+    async searchChannels(userId, number, value) {
+        let userChannelsByUser = await userChannelDao.listByUser(userId);
+        let returnChannels = [];
+        let foundChannels = [];
+        if ($bean.isNotEmpty(userChannelsByUser)) {
+            let channelIds = [];
+            for (let i = 0; i < userChannelsByUser.length; i++) {
+                channelIds.push(userChannelsByUser[i].channelId);
+            }
+            console.log('List channelId by user ');
+            console.log(channelIds);
+            foundChannels = await Channel.findAll({
+                where: {
+                    [Op.and]: [
+                        {id: {[Op.in]: channelIds}},
+                        {[Op.or]: [{title: {[Op.eq]: null}}, {title: {[Op.substring]: value}}]}
+                    ]
+                },
+                include: [
+                    {
+                        model: User,
+                        where: {
+                            [Op.and]: [
+                                {id: {[Op.ne]: userId}},
+                                {[Op.or]: [{'$channels.title$': {[Op.not]: null}}, {[Op.and]: [{'$channels.title$': {[Op.eq]: null}}, {username: {[Op.substring]: value}}]}]}
+                            ]
+                        }
+                    },
+                    {
+                        model: Messenger,
+                        limit: 1,
+                        offset: 0,
+                        order: [['createdAt', 'DESC']]
+                    }
+                ],
+                order: [['createdAt', 'DESC']]
+            });
+        }
+        if ($bean.isNumber(number) && (number > 0)) {
+            if (number > foundChannels.length) {
+                number = foundChannels.length;
+            }
+            for (let i = 0; i < number; i++) {
+                returnChannels.push(foundChannels[i]);
+            }
+        }
+        let result = {
+            availbleNumber: foundChannels.length,
+            channels: returnChannels
+        }
+        return result;
+    },
+
+    async viewChannel(userId, channelId) {
+        let userChannel = await userChannelDao.findUserChannel(userId, channelId);
+        let result = {};
+        if ($bean.isNotEmpty(userChannel)) {
+            result = await Channel.findOne({
+                where: {id: channelId},
+                include: [
+                    {
+                        model: User,
+                        where: {id: {[Op.ne]: userId}}
+                    },
+                    {
+                        model: Messenger,
+                        limit: 1,
+                        offset: 0,
+                        order: [['createdAt', 'DESC']]
+                    }
+                ],
+                order: [['createdAt', 'DESC']]
+            });
+        }
+        return result;
+    },
+
+    async statusUserChannel(userId, channelId) {
+        let result = {};
+        let countMessengers = await messengerDao.countByChannel(channelId);
+        console.log(countMessengers);
+        console.log(countMessengers.count);
+        let userChannel = await userChannelDao.findUserChannel(userId, channelId);
+        result = {
+            channelId: channelId,
+            unReadMessengers: countMessengers - userChannel.position
         }
         return result;
     }

@@ -3,7 +3,6 @@ module.exports = (sequelize, Sequelize) => {
     const Channel = sequelize.define('channels', {
         [channelModel.id.title] : {
             type: Sequelize.STRING,
-            defaultValue: Sequelize.UUIDV1,
             primaryKey: true
         },
         [channelModel.avatar.title]: {
@@ -30,9 +29,6 @@ module.exports = (sequelize, Sequelize) => {
         },
         [channelModel.type.title]: {
             type: Sequelize.STRING
-        },
-        [channelModel.finishWorkingTime.title]: {
-            type: Sequelize.DATE
         },
         [channelModel.style.title]: {
             type: Sequelize.STRING

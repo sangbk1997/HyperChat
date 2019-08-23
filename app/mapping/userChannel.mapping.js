@@ -3,7 +3,6 @@ module.exports = (sequelize, Sequelize) => {
     const UserChannel = sequelize.define('userChannels', {
         [userChannelModel.id.title]: {
             type: Sequelize.STRING,
-            defaultValue: Sequelize.UUIDV1,
             primaryKey: true
         },
         [userChannelModel.userId.title]: {
@@ -27,9 +26,6 @@ module.exports = (sequelize, Sequelize) => {
         [userChannelModel.recieverMessage.title]: {
             type: Sequelize.STRING
         },
-        [userChannelModel.status.title]: {
-            type: Sequelize.STRING
-        },
         [userChannelModel.action.title]: {
             type: Sequelize.STRING
         },
@@ -48,9 +44,6 @@ module.exports = (sequelize, Sequelize) => {
         },
         [userChannelModel.notification.title]: {
             type: Sequelize.BOOLEAN
-        },
-        [userChannelModel.modifiedDate.title]: {
-            type: Sequelize.DATE
         }
     });
 

@@ -20,6 +20,7 @@ var $bean = require('../common/utils/hyd-bean-utils');
 const TYPE_NEW_MESSENGER = 'NEW_MESSENGER';
 const TYPE_UPDATED_MESSENGER = 'UPDATED_MESSENGER';
 const TYPE_DELETED_MESSENGER = 'DELETED_MESSENGER';
+
 var messengerService = {
 
     // // List - Sort
@@ -72,7 +73,7 @@ var messengerService = {
     // },
     //
     //
-    // getMessageByChannel(channelId, number, offset) {
+    // getMessengerByChannel(channelId, number, offset) {
     //     if ($bean.isNumber(number) && $bean.isNumber(offset)) {
     //         return Messenger.findAll({where: {channelId: channelId}, limit: number, offset: offset});
     //     } else {
@@ -156,92 +157,52 @@ var messengerService = {
         // if ($bean.isEmpty(checkValidRequest) || $bean.isEmpty(checkValidRequest[0]) || $bean.isEmpty(checkValidRequest[1])) {
         //     throw new Error('error.permission.denied');
         // } else {
+
+        let channel = await baseDao.findById(messenger['channelId'], listModelType.modelTypeChannel);
         let objMessenger = {};
         for (key in listModelType.modelTypeMessenger.mapObj) {
             objMessenger[listModelType.modelTypeMessenger.mapObj[key].title] = messenger[key];
         }
-        if ($bean.isNil(objMessenger['userId'])) {
+        if ($bean.isEmpty(objMessenger['id'])) {
+            objMessenger['id'] = $bean.genRandomID(16);
+        }
+        if ($bean.isEmpty(objMessenger['userId'])) {
             objMessenger['userId'] = userLogin.id;
         }
-        if ($bean.isNil(objMessenger['type'])) {
+        if ($bean.isEmpty(objMessenger['type'])) {
             objMessenger['type'] = messengerStatic.TYPE_TEXT;
         }
-        if ($bean.isNil(objMessenger['typeRole'])) {
+        if ($bean.isEmpty(objMessenger['typeRole'])) {
             objMessenger['typeRole'] = messengerStatic.TYPE_ROLE_PRIMARY;
         }
-        if ($bean.isNil(objMessenger['status'])) {
+        if ($bean.isEmpty(objMessenger['status'])) {
             objMessenger['status'] = messengerStatic.STATUS_ORIGINAL;
         }
-        if ($bean.isNil(objMessenger['modifiedDate'])) {
+        if ($bean.isEmpty(objMessenger['modifiedDate'])) {
             objMessenger['modifiedDate'] = new Date();
         }
+        if ($bean.isEmpty(objMessenger['createdAt'])) {
+            objMessenger['createdAt'] = new Date();
+        }
+
+        objMessenger['channelTitle'] = channel.title
+
+        let totalMessengerByChannel = await messengerDao.countByChannel(objMessenger['channelId']);
+
+        objMessenger['oldCountMessengers'] = totalMessengerByChannel;
 
         // // Gửi messenger realtime lên channel
-        // let realTimeMessenger = {};
-        // for (let key in objMessenger) {
-        //     realTimeMessenger[key] = objMessenger[key];
-        // }
-        //
-        // realTimeMessenger['user'] = userLogin;
-        // // for (let key in userLogin) {
-        // //     if ($bean.isNil(objMessengerWithUser[key]) && key != 'id') {
-        // //         objMessengerWithUser[key] = userLogin[key];
-        // //     }
-        // // }
-        // // Realtime về người dùng
-        // redisService.pubStreamObj({
-        //         //     type: TYPE_NEW_MESSENGER,
-        //         //     value: realTimeMessenger,
-        //         //     channelId: realTimeMessenger['channelId']
-        //         // });
+        let realTimeMessenger = $bean.cloneJson(objMessenger);
+        realTimeMessenger['user'] = userLogin;
+        // Realtime về người dùng
+        redisService.pubStreamObj({
+            type: TYPE_NEW_MESSENGER,
+            value: realTimeMessenger,
+            channelId: realTimeMessenger['channelId']
+        });
         // Lưu messenger vào database
-        return baseDao.insert(objMessenger, listModelType.modelTypeMessenger).then(function (resultMessenger) {
-
-            let cloneMessenger = $bean.cloneJson(resultMessenger);
-            cloneMessenger['user'] = userLogin;
-            redisService.pubStreamObj({
-                type: TYPE_NEW_MESSENGER,
-                value: cloneMessenger,
-                channelId: cloneMessenger['channelId']
-            });
-
-            // // Cập nhật lại thời gian làm việc của channel
-            baseDao.quickUpdate({
-                id: messenger.channelId,
-                finishWorkingTime: resultMessenger['createdAt']
-            }, listModelType.modelTypeChannel).then(function (updatedChannel) {
-                console.log('Cập nhật thời gian làm việc của channel !');
-                console.log(updatedChannel);
-            })
-
-            // if (messenger['typeRole'] == messengerStatic.TYPE_ROLE_PRIMARY || messenger['typeRole'] == messengerStatic.TYPE_ROLE_NOTIFIED) {
-            //   Create Link User - Message
-            //    Tìm kiếm tất cả User đang có kết nối đến Channel đã được accept
-            userChannelDao.findAcceptedByChannel(resultMessenger.channelId).then(function (userChannel) {
-                if ($bean.isNotEmpty(userChannel)) {
-                    for (let i = 0; i < userChannel.length; i++) {
-                        console.log(userChannel);
-                        let objUserMessenger = {
-                            userId: userChannel[i].userId,
-                            channelId: userChannel[i].channelId,
-                            messengerId: resultMessenger.id,
-                            action: (userChannel[i].userId == userLogin.id) ? userMessengerStatic.ACTION_READED : userMessengerStatic.ACTION_UNREAD,
-                            readDate: (userChannel[i].userId == userLogin.id) ? resultMessenger['createdAt'] : null
-                        }
-                        baseDao.insert(objUserMessenger, listModelType.modelTypeUserMessenger).then(function (userMessenger) {
-                            console.log('Tạo liên kết user - messenger ');
-                            console.log(userMessenger);
-                        })
-                    }
-                }
-            })
-            // }
-
-            return resultMessenger;
-            // // Notification
-            // return messenger;
-        })
-        // }
+        let result = await baseDao.insert(objMessenger, listModelType.modelTypeMessenger);
+        return result;
     },
 
     async doUpdate(userLogin, messenger, newPub) {
@@ -257,8 +218,7 @@ var messengerService = {
                 foundMessenger['status'] = messengerStatic.STATUS_EDITED;
                 foundMessenger['modifiedDate'] = new Date();
             }
-            let updatedMessenger = await baseDao.quickUpdate(foundMessenger, listModelType.modelTypeMessenger);
-            let cloneMessenger = $bean.cloneJson(updatedMessenger);
+            let cloneMessenger = $bean.cloneJson(foundMessenger);
             if (newPub) {
                 redisService.pubStreamObj({
                     type: TYPE_NEW_MESSENGER,
@@ -272,6 +232,7 @@ var messengerService = {
                     channelId: cloneMessenger['channelId']
                 });
             }
+            let updatedMessenger = await baseDao.quickUpdate(foundMessenger, listModelType.modelTypeMessenger);
             return updatedMessenger;
         }
     },
@@ -297,33 +258,40 @@ var messengerService = {
     },
 
     async messagesByChannel(channelId, number, offset) {
-        let result = await messengerDao.getMessageByChannel(channelId, number, offset);
+        let result = await messengerDao.getMessengerByChannel(channelId, number, offset);
         return result;
     },
 
-    async loadMoreMessengers(userLoginId, channelId, number, offset) {
-        let result = await messengerDao.getMessageByChannel(channelId, number, offset);
-
-        if ($bean.isNotEmpty(result)) {
-            console.log('Update read messenger');
-            // Gửi pushstream về phía người dùng
-            // Cập nhật phản hồi vào tin nhắn là đã đọc bởi user
-            for (let i = 0; i < result.length; i++) {
-                userMessengerDao.readMessenger(userLoginId, channelId, result[i].id);
-            }
-            // Cập nhật lại tin nhắn đọc cuối cùng của user
-            // Cập nhật lại vị trí tin nhắn đọc gần nhất của user với channel
-            userChannelDao.updateLastReadMessenger(userLoginId, channelId, (offset + result.length), result[result.length - 1].id);
+    async exampleMessengers(channelId, oldNumber, newNumber, offset) {
+        let oldMessengers = await messengerService.loadPreviousMessengers(channelId, oldNumber, offset);
+        let newMessengers = await messengerService.loadMoreMessengers(channelId, newNumber, offset);
+        let result = {
+            oldMessengers: oldMessengers,
+            newMessengers: newMessengers
         }
+        return result;
+    },
 
+    async loadMoreMessengers(channelId, number, offset) {
+        let result = await messengerDao.getMoreMessengers(channelId, number, offset);
+        // let userChannel = await userChannelDao.findUserChannel(userLoginId, channelId);
+        // if ($bean.isNotEmpty(result) && $bean.isNotEmpty(userChannel)) {
+        //     userChannel['position'] = offset + result.length;
+        //     userChannel['lastMessengerId'] = result[result.length - 1].id;
+        //     userChannelService.update(userChannel);
+        // }
         return result;
     },
 
     async loadPreviousMessengers(channelId, number, offset) {
-        let result = await messengerDao.getMessageByChannel(channelId, number, offset);
+        let result = await messengerDao.getPreviousMessengers(channelId, number, offset);
         return result;
     },
 
+    async countByChannel(channelId) {
+        let result = await messengerDao.countByChannel(channelId);
+        return result;
+    }
 }
 
 module.exports = messengerService;

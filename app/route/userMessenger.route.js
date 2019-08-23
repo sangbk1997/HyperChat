@@ -67,7 +67,7 @@ module.exports = function (app) {
 
     app.post('/userMessengers/deleteReact', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        userMessengerService.doDelete(req.body.userMessengerId).then(function (data) {
+        userMessengerService.deleteUserMessenger(req.body.userMessengerId).then(function (data) {
             res.json(data);
         })
     });

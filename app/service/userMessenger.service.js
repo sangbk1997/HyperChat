@@ -94,6 +94,9 @@ var userMessengerService = {
         for (key in listModelType.modelTypeUserMessenger.mapObj) {
             objUserMessenger[listModelType.modelTypeUserMessenger.mapObj[key].title] = userMessenger[key];
         }
+        if ($bean.isNil(objUserMessenger['id'])) {
+            objUserMessenger['id'] = $bean.genRandomID(16 );
+        }
         if ($bean.isNil(objUserMessenger['userId'])) {
             objUserMessenger['userId'] = userLogin.id;
         }
@@ -105,47 +108,19 @@ var userMessengerService = {
         }
 
         // Gửi messenger realtime lên channel
-        // let realTimeUserMessenger = {};
-        // for (let key in objUserMessenger) {
-        //     realTimeUserMessenger[key] = objUserMessenger[key];
-        // }
-
-        // realTimeUserMessenger['user'] = userLogin;
-        // // Realtime về người dùng
-        // redisService.pubStreamObj({
-        //     type: TYPE_NEW_REACT,
-        //     value: realTimeUserMessenger,
-        //     messengerId: realTimeUserMessenger.messengerId,
-        //     channelId: realTimeUserMessenger.channelId
-        // });
+        let realTimeUserMessenger = $bean.cloneJson(objUserMessenger);
+        realTimeUserMessenger['user'] = userLogin;
+        // Realtime về người dùng
+        redisService.pubStreamObj({
+            type: TYPE_NEW_REACT,
+            value: realTimeUserMessenger,
+            messengerId: realTimeUserMessenger.messengerId,
+            channelId: realTimeUserMessenger.channelId
+        });
         // Lưu messenger vào database
-        return baseDao.insert(objUserMessenger, listModelType.modelTypeUserMessenger).then(function (resultUserMessenger) {
-            let cloneObj = $bean.cloneJson(resultUserMessenger);
-            cloneObj['user'] = userLogin;
-            redisService.pubStreamObj({
-                type: TYPE_NEW_REACT,
-                value: cloneObj,
-                messengerId: cloneObj.messengerId,
-                channelId: cloneObj.channelId
-            });
-            return resultUserMessenger;
-        })
-        // }
+        let result = await baseDao.insert(objUserMessenger, listModelType.modelTypeUserMessenger);
+        return result;
     },
-
-    // async doUpdate(userLogin, userMessenger) {
-    //     // Realtime về người dùng
-    //     let cloneUserMessenger = $bean.cloneJson(userMessenger);
-    //     cloneUserMessenger['user'] = userLogin;
-    //     redisService.pubStreamObj({
-    //         type: TYPE_UPDATED_REACT,
-    //         value: cloneUserMessenger,
-    //         messengerId: cloneUserMessenger.messengerId,
-    //         channelId: cloneUserMessenger.channelId
-    //     });
-    //     let updatedMessenger = await baseDao.update(userMessenger, listModelType.modelTypeUserMessenger);
-    //     return updatedMessenger;
-    // },
 
     async doDelete(userMessengerId) {
         let deletedUserMessenger = await baseDao.delete(userMessengerId, listModelType.modelTypeUserMessenger);
@@ -164,9 +139,9 @@ var userMessengerService = {
         return userMessengerService.doInsert(userLogin, userMessenger);
     },
 
-    updateUserMessenger(userLogin, userMessenger) {
-        return userMessengerService.doUpdate(userLogin, userMessenger);
-    },
+    deleteUserMessenger(id) {
+        return userMessengerService.doDelete(id);
+    }
 
 }
 

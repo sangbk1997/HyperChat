@@ -17,6 +17,7 @@ var $bean = {
     KEY_CODE_COMMA: 188,
     KEY_CODE_DOT: 190,
     KEY_CODE_TAB: 9,
+    KEY_CODE_SPACE: 32,
     //
     RIGHT_CLICK_CODE: [2, 3], // 2: IE; 3: Gecko (Firefox), WebKit (Safari/Chrome) & Opera
     //

@@ -106,7 +106,38 @@ module.exports = function (app) {
 
     app.post('/channels/listByUser', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        channelService.listByUser(req.session.user.id, req.body.number, req.body.offset).then(function (data) {
+        console.log('User session');
+        console.log(req);
+        let userId = req.body.userId ? req.body.userId : req.session.user.id;
+        // channelService.listByUser(req.session.user.id, req.body.number).then(function (data) {
+        //     res.json(data);
+        // })
+        channelService.listByUser(userId, req.body.number).then(function (data) {
+            res.json(data);
+        })
+    });
+
+    app.post('/channels/searchChannels', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        channelService.searchChannels(req.session.user.id, req.body.number, req.body.value).then(function (data) {
+            res.json(data);
+        })
+    });
+
+    app.post('/channels/statusUserChannel', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        let userId = (req.body.userId) ? (req.body.userId) : req.session.user.id;
+        // channelService.statusUserChannel(req.session.user.id, req.body.channelId).then(function (data) {
+        //     res.json(data);
+        // })
+        channelService.statusUserChannel(userId, req.body.channelId).then(function (data) {
+            res.json(data);
+        })
+    });
+
+    app.post('/channels/viewChannel', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        channelService.viewChannel(req.session.user.id, req.body.channelId).then(function (data) {
             res.json(data);
         })
     });

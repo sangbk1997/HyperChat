@@ -26,7 +26,8 @@ const env = {
             acquire: 30000,
             idle: 10000
         }
-    }
+    },
+    JWT_SECRET: 'Hyperlogy'
 };
 
 module.exports = env;

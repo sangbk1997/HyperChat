@@ -11,6 +11,7 @@ var socket = {
     pubToChannel(object) {
         console.log('Pub to Channel');
         var url = hostPushStream + '/pub?id=' + object['channelId'];
+        // var url = hostPushStream + '/pub?id=' + "hyper";
         console.log('Pub url ' + url);
         return axios.post(url, $bean.encodeObject(object));
     }

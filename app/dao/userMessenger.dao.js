@@ -68,23 +68,6 @@ var userMessengerDao = {
             result = {message: 'Delete all user-messenger by user success !'};
         }
         return result;
-    },
-
-    async readMessenger(userId, channelId, messengerId) {
-        let result = {};
-        let userMessenger = await UserMessenger.findOne({
-            where: {[Op.and]: [{userId: userId}, {channelId: channelId}, {messengerId: messengerId}]}
-        })
-        if ($bean.isNotEmpty(userMessenger)) {
-            if (userMessenger.action == userMessengerStatic.ACTION_UNREAD) {
-                let updateUserMessenger = {
-                    id: result.id,
-                    action: userMessengerStatic.ACTION_REACTED
-                }
-                result = await baseDao.quickUpdate(updateUserMessenger, listModelType.modelTypeUserMessenger);
-            }
-        }
-        return result;
     }
 }
 

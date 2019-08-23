@@ -99,6 +99,13 @@ module.exports = function (app) {
         userService.login(req, res);
     })
 
+    app.post('/mobileLogin', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        userService.mobileLogin(req, res).then(function (data) {
+            res.json(data);
+        })
+    })
+
     app.get('/userLogin', (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         res.json(req.session.user);
@@ -111,6 +118,15 @@ module.exports = function (app) {
 
     app.post('/signup', function (req, res) {
         userService.signUp(req, res);
+    })
+
+    app.post('/mobileSignup', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        console.log('Mobile sigup');
+        console.log(req.body);
+        userService.mobileSignUp(req, res).then(function (data) {
+            res.json(data);
+        })
     })
 
     // or do some logic yourself
@@ -292,7 +308,13 @@ module.exports = function (app) {
 
     app.post('/subChannel', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        socketService.subChannel(req.session.user.id, req.body.channelId).then(function (data) {
+        console.log('User session');
+        console.log(req.session.user.id);
+        let sessionId = (req.body.userId) ? req.body.userId : req.session.user.id;
+        // socketService.subChannel(req.session.user.id, req.body.channelId).then(function (data) {
+        //     res.json(data);
+        // })
+        socketService.subChannel(sessionId, req.body.channelId).then(function (data) {
             res.json(data);
         })
     });

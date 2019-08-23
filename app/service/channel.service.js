@@ -18,7 +18,11 @@ const messengerService = require('../service/messenger.service');
 const userService = require('../service/user.service');
 const redisService = require('../service/redis.service');
 var $bean = require('../common/utils/hyd-bean-utils');
-
+const userChannelService = require('../service/userChannel.service');
+const TYPE_UPDATED_CHANNEL = 'UPDATED_CHANNEL';
+const TYPE_NEW_USER_CHANNEL = 'NEW_USER_CHANNEL';
+const TYPE_UPDATED_USER_CHANNEL = 'UPDATED_USER_CHANNEL';
+const TYPE_DELETED_USER_CHANNEL = 'DELETED_USER_CHANNEL';
 var channelService = {
 
 //
@@ -146,25 +150,38 @@ var channelService = {
 
     // Search by Attributes
 
-    async searchChannels(value, affectAttributes, number, offset) {
-        var result = await baseDao.search(value, affectAttributes, listModelType.modelTypeChannel, number, offset);
-        return result;
+    // async searchChannels(value, affectAttributes, number, offset) {
+    //     var result = await baseDao.search(value, affectAttributes, listModelType.modelTypeChannel, number, offset);
+    //     return result;
+    // },
+
+    listByUser(userId, number) {
+        return channelDao.listByUser(userId, number);
     },
 
-    listByUser(userId, number, offset) {
-        return channelDao.listByUser(userId, number, offset);
+    searchChannels(userId, number, value) {
+        return channelDao.searchChannels(userId, number, value);
+    },
+
+
+    statusUserChannel(userId, channelId) {
+        return channelDao.statusUserChannel(userId, channelId);
+    },
+
+    viewChannel(userId, channelId) {
+        return channelDao.viewChannel(userId, channelId);
     },
 
     infoChannel(channelId) {
         return channelDao.infoChannel(channelId);
     },
 
+    // use
     async doAddChannel(objChannel, typeChannel, userLogin) {
         let channel = {
             status: (typeChannel == channelStatic.TYPE_CHAT_GROUP) ? channelStatic.STATUS_ACTIVE : channelStatic.STATUS_INACTIVE,
             createdBy: userLogin.id,
             type: typeChannel,
-            finishWorkingTime: new Date(),
             style: objChannel.style
         };
         if ($bean.isNotEmpty(objChannel) && typeChannel == channelStatic.TYPE_CHAT_GROUP) {
@@ -177,8 +194,20 @@ var channelService = {
         // Tạo channel
         let resultChannel = await baseDao.insert(channel, listModelType.modelTypeChannel);
 
-        console.log('Tạo nhóm chat');
-        console.log(resultChannel);
+        // Message đính kèm vào chat
+        let messenger = {
+            userId: userLogin.id,
+            channelId: resultChannel.id,
+            message: userLogin.username + ' đã tạo kênh Chat ',
+            type: messengerStatic.TYPE_TEXT,
+            status: messengerStatic.STATUS_ORIGINAL,
+            typeRole: messengerStatic.TYPE_ROLE_ATTACHED
+        }
+
+        let firstMessenger = await baseDao.insert(messenger, listModelType.modelTypeMessenger);
+
+        let pushNewUserChannels = [];
+
         if ($bean.isNotEmpty(resultChannel)) {
 
             // Tạo liên kết channel và người tao
@@ -187,24 +216,33 @@ var channelService = {
                 channelId: resultChannel.id,
                 triggerId: userLogin.id,
                 isAdmin: userChannelStatic.IS_ADMIN,
-                status: userChannelStatic.STATUS_ACCEPTED,
                 action: userChannelStatic.ACTION_READED,
                 typeChat: typeChannel,
                 position: userChannelStatic.ZERO_POSITION,
                 lastMessengerId: null,
-                notification: userChannelStatic.STATUS_NOTIFICATION,
-                modifiedDate: new Date()
+                notification: userChannelStatic.STATUS_NOTIFICATION
             }
-            let userChannel = await baseDao.insert(objUserChannel, listModelType.modelTypeUserChannel);
-            console.log('Tạo liên kết user - chat - admin');
-            console.log(userChannel);
 
+            let lastUserChannel = await userChannelDao.lastUserChannel(userLogin.id);
+            console.log('New Chat');
+            if ($bean.isNotEmpty(lastUserChannel)) {
+                console.log(lastUserChannel['channelId']);
+                let clonePushStreamObj = $bean.cloneJson(objUserChannel);
+                clonePushStreamObj['user'] = userLogin;
+                pushNewUserChannels.push({
+                    type: TYPE_NEW_USER_CHANNEL,
+                    value: clonePushStreamObj,
+                    channelId: lastUserChannel['channelId']
+                })
+            }
+
+            // let userChannel = await baseDao.insert(objUserChannel, listModelType.modelTypeUserChannel);
+            baseDao.insert(objUserChannel, listModelType.modelTypeUserChannel);
             // check
             // Tạo liên kết channel và các thành viên
             if ($bean.isNotEmpty(objChannel['members'])) {
-                console.log('Danh sách thành viên');
-                console.log(objChannel['members']);
-                let listPromises = [];
+                let listPromiseUserChannel = [];
+                let listPromiseMessenger = [];
                 for (let i = 0; i < objChannel['members'].length; i++) {
                     let checkedUser = await baseDao.findById(objChannel['members'][i], listModelType.modelTypeUser);
                     if ($bean.isNotEmpty(checkedUser)) {
@@ -226,37 +264,51 @@ var channelService = {
                                 isAdmin: (typeChannel == userChannelStatic.TYPE_CHAT_GROUP) ? userChannelStatic.IS_NOT_ADMIN : userChannelStatic.IS_ADMIN,
                                 triggerMessage: triggerMessage,
                                 recieverMessage: recieverMessage,
-                                status: userChannelStatic.STATUS_PENDING,
                                 action: userChannelStatic.ACTION_UNREAD,
                                 typeChat: typeChannel,
                                 position: userChannelStatic.ZERO_POSITION,
                                 lastMessengerId: null,
-                                notification: userChannelStatic.STATUS_NOTIFICATION,
-                                modifiedDate: new Date()
+                                notification: userChannelStatic.STATUS_NOTIFICATION
                             }
-                            let promise = baseDao.insert(objUserChannel, listModelType.modelTypeUserChannel);
-                            listPromises.push(promise);
+                            let messenger = {
+                                userId: userLogin.id,
+                                channelId: resultChannel.id,
+                                message: userLogin.username + ' đã thêm ' + checkedUser.username + ' vào nhóm.',
+                                type: messengerStatic.TYPE_TEXT,
+                                status: messengerStatic.STATUS_ORIGINAL,
+                                typeRole: messengerStatic.TYPE_ROLE_ATTACHED
+                            }
+                            let lastUserChannel = await userChannelDao.lastUserChannel(objChannel['members'][i]);
+                            console.log('New Chat');
+                            if ($bean.isNotEmpty(lastUserChannel)) {
+                                console.log(lastUserChannel['channelId']);
+                                let clonePushStreamObj = $bean.cloneJson(objUserChannel);
+                                clonePushStreamObj['user'] = checkedUser;
+                                pushNewUserChannels.push({
+                                    type: TYPE_NEW_USER_CHANNEL,
+                                    value: clonePushStreamObj,
+                                    channelId: lastUserChannel['channelId']
+                                })
+                            }
+                            // baseDao.insert(messenger, listModelType.modelTypeMessenger);
+                            // baseDao.insert(objUserChannel, listModelType.modelTypeUserChannel);
+                            let promiseMessenger = baseDao.insert(messenger, listModelType.modelTypeMessenger);
+                            let promiseUserChannel = baseDao.insert(objUserChannel, listModelType.modelTypeUserChannel);
+                            listPromiseMessenger.push(promiseMessenger);
+                            listPromiseUserChannel.push(promiseUserChannel);
                         }
                     }
                 }
 
-                let userLinkChannel = await Promise.all(listPromises);
+                // let userLinkChannel = await Promise.all(listPromiseUserChannel);
+                let messengers = await Promise.all(listPromiseMessenger);
+                let userLinkChannel = await Promise.all(listPromiseUserChannel);
+                if ($bean.isNotEmpty(pushNewUserChannels)) {
+                    for (let i = 0; i < pushNewUserChannels.length; i++) {
+                        redisService.pubStreamObj(pushNewUserChannels[i]);
+                    }
+                }
             }
-
-            // Message đính kèm vào chat
-            let messenger = {
-                userId: userLogin.id,
-                channelId: resultChannel.id,
-                message: userLogin.email + ' đã tạo kênh Chat ',
-                type: messengerStatic.TYPE_TEXT,
-                status: messengerStatic.STATUS_ORIGINAL,
-                typeRole: messengerStatic.TYPE_ROLE_ATTACHED
-            }
-
-            messengerService.doInsertMessenger(userLogin, messenger).then(function (data) {
-                console.log('Message đính kèm');
-                console.log(data);
-            })
 
             return resultChannel;
         }
@@ -265,6 +317,14 @@ var channelService = {
     async doUpdateChannel(channel, userLogin) {
         let oldChannel = await baseDao.findById(channel['id'], listModelType.modelTypeChannel);
         if ($bean.isNotEmpty(oldChannel)) {
+
+            // Pushtream thông tin cập nhật nhóm chat mới cho người dùng về người dùng
+            redisService.pubStreamObj({
+                type: TYPE_UPDATED_CHANNEL,
+                value: channel,
+                channelId: channel['channelId']
+            });
+
             return baseDao.quickUpdate(channel, listModelType.modelTypeChannel).then(function (newChannel) {
                 console.log('Cập nhật channel');
                 console.log(newChannel);
@@ -283,10 +343,7 @@ var channelService = {
                     type: messengerStatic.TYPE_TEXT,
                     typeRole: messengerStatic.TYPE_ROLE_NOTIFIED
                 }
-                messengerService.doInsertMessenger(userLogin, messenger).then(function (data) {
-                    console.log('Gửi thông báo khi cập nhật channel');
-                    console.log(data);
-                })
+                messengerService.doInsertMessenger(userLogin, messenger);
             })
         }
     },
@@ -294,25 +351,25 @@ var channelService = {
     async doDeleteChannel(channelId, userLogin) {
         let channel = await baseDao.findById(channelId, listModelType.modelTypeChannel);
         if ($bean.isNotEmpty(channel)) {
-            return baseDao.delete(channelId, listModelType.modelTypeChannel).then(function (deletedChannel) {
-                // Xóa tất cả liên kết user - channel
-                userChannelDao.deleteAllByChannel(channelId).then(function (data) {
-                    console.log('Xóa hết liên kết user - channel theo channel');
-                    console.log(data);
-                })
-                // Xóa hết tin nhắn đi theo channel
-                messengerDao.deleteByChannel(channelId).then(function (data) {
-                    console.log('Xóa hết tin nhắn theo channel');
-                    console.log(data);
-                })
-
-                // xóa hết link user - messenger theo channel
-                userMessengerDao.deleteByChannel(channelId).then(function (data) {
-                    console.log('Xóa hết liên kêt user - messenger theo channel');
-                    console.log(data);
-                })
-                return deletedChannel;
+            let userChannels = await userChannelDao.findByChannel(channelId);
+            if ($bean.isNotEmpty(userChannels)) {
+                for (let i = 0; i < userChannels.length; i++) {
+                    userChannelService.deleteRequest(userChannels[i].id, userLogin);
+                }
+            }
+            // Xóa hết tin nhắn đi theo channel
+            messengerDao.deleteByChannel(channelId).then(function (data) {
+                console.log('Xóa hết tin nhắn theo channel');
+                console.log(data);
             })
+
+            // xóa hết link user - messenger theo channel
+            userMessengerDao.deleteByChannel(channelId).then(function (data) {
+                console.log('Xóa hết liên kêt user - messenger theo channel');
+                console.log(data);
+            })
+            let result = await baseDao.delete(channelId, listModelType.modelTypeChannel);
+            return result;
         }
     },
 

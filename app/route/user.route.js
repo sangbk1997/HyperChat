@@ -111,7 +111,11 @@ module.exports = function (app) {
 
     app.post('/users/suggested', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        userService.suggestPeople(req.session.user, req.body.number, req.body.offset).then(function (data) {
+        let userLogin = req.body.userLogin ? req.body.userLogin : req.session.user;
+        // userService.suggestPeople(req.session.user, req.body.number, req.body.offset).then(function (data) {
+        //     res.json(data);
+        // })
+        userService.suggestPeople(userLogin, req.body.number, req.body.offset).then(function (data) {
             res.json(data);
         })
     });
@@ -241,6 +245,13 @@ module.exports = function (app) {
     app.post('/users/countAll', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
         userService.countAllUsers().then(function (data) {
+            res.json(data);
+        })
+    })
+
+    app.post('/users/checkLoadMessengers', function (req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        userService.checkLoadMessengers(req.session.user.id, req.body.channelId).then(function (data) {
             res.json(data);
         })
     })
