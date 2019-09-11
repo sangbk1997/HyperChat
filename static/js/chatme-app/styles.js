@@ -762,12 +762,12 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Tigo\finalExame\static\appClient\src\styles.css */"./src/styles.css");
-__webpack_require__(/*! D:\Tigo\finalExame\static\appClient\src\public\css\animate.css */"./src/public/css/animate.css");
-__webpack_require__(/*! D:\Tigo\finalExame\static\appClient\src\public\css\chat-app.css */"./src/public/css/chat-app.css");
-__webpack_require__(/*! D:\Tigo\finalExame\static\appClient\src\public\css\picker.css */"./src/public/css/picker.css");
-__webpack_require__(/*! D:\Tigo\finalExame\static\appClient\src\public\css\hover.css */"./src/public/css/hover.css");
-module.exports = __webpack_require__(/*! D:\Tigo\finalExame\static\appClient\src\public\css\role.css */"./src/public/css/role.css");
+__webpack_require__(/*! D:\Projects\ChatApp\App-Server\HyperChat\static\app-client\src\styles.css */"./src/styles.css");
+__webpack_require__(/*! D:\Projects\ChatApp\App-Server\HyperChat\static\app-client\src\public\css\animate.css */"./src/public/css/animate.css");
+__webpack_require__(/*! D:\Projects\ChatApp\App-Server\HyperChat\static\app-client\src\public\css\chat-app.css */"./src/public/css/chat-app.css");
+__webpack_require__(/*! D:\Projects\ChatApp\App-Server\HyperChat\static\app-client\src\public\css\picker.css */"./src/public/css/picker.css");
+__webpack_require__(/*! D:\Projects\ChatApp\App-Server\HyperChat\static\app-client\src\public\css\hover.css */"./src/public/css/hover.css");
+module.exports = __webpack_require__(/*! D:\Projects\ChatApp\App-Server\HyperChat\static\app-client\src\public\css\role.css */"./src/public/css/role.css");
 
 
 /***/ })

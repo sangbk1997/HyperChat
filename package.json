@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "busboy": "^0.3.1",
@@ -37,8 +37,9 @@
     "mysql2": "^1.6.5",
     "ngx-filter-pipe": "^2.1.2",
     "node-cas-client": "^1.0.0",
+    "nodemon": "^1.19.2",
     "redis": "^2.8.0",
-    "sequelize": "^5.8.5",
+    "sequelize": "^5.18.4",
     "session": "^0.1.0",
     "session-memory-store": "^1.0.0",
     "uid-safe": "^2.1.5",
