@@ -14,6 +14,8 @@ var fs = require('fs');
 var app = express();
 var initDataService = require('./app/service/initData.service');
 var certificate = fs.readFileSync('./static/ssl/server.pem');
+const userService = require('./app/service/user.service');
+var checkToken = require('./app/common/middleware/JWT_authentication');
 VGlobal = {};
 
 var options = {
@@ -114,6 +116,26 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors());
 
+app.post('/mobileLogin', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    userService.mobileLogin(req, res).then(function (data) {
+        res.json(data);
+    })
+})
+
+
+app.post('/mobileSignup', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    userService.mobileSignUp(req, res).then(function (data) {
+        res.json(data);
+    })
+})
+
+require('./app/route/app.route')(app);
+
+
+app.use(checkToken);
+
 // Xử lý error
 app.use(function (err, req, res, next) {
     console.log('error name ' + err.name);
@@ -170,7 +192,6 @@ db.sequelize.sync().then(() => {
 //     res.render('home');
 // });
 
-require('./app/route/app.route')(app);
 require('./app/route/socket.route')(app);
 require('./app/route/user.route')(app);
 require('./app/route/channel.route')(app);

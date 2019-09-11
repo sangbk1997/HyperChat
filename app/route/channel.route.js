@@ -106,8 +106,6 @@ module.exports = function (app) {
 
     app.post('/channels/listByUser', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        console.log('User session');
-        console.log(req);
         let userId = req.body.userId ? req.body.userId : req.session.user.id;
         // channelService.listByUser(req.session.user.id, req.body.number).then(function (data) {
         //     res.json(data);

@@ -59,8 +59,8 @@ module.exports = function (app) {
 
     app.post('/userChannels/listByUser', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        console.log('User session');
-        console.log(req);
+        console.log('User session JWT');
+        console.log(req.session.user);
         let sessionId = (req.body.userId) ? req.body.userId : req.session.user.id;
         // userChannelService.getByUser(req.session.user.id).then(function (data) {
         //     res.json(data);

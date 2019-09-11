@@ -1761,7 +1761,7 @@ var BoxListMessengerComponent = /** @class */ (function () {
         var _this = this;
         this.firstAccess = true;
         this.getEmojisDefault();
-        this.globalService.cloneSuggestedChatsubscribe(function (res) {
+        this.globalService.accessChat.subscribe(function (res) {
             console.log('this is the current value', res);
             _this.firstAccess = false;
             _this.selectedChat = res;
@@ -2223,15 +2223,14 @@ var BoxListMessengerComponent = /** @class */ (function () {
     BoxListMessengerComponent.prototype.notifiedNewMessenger = function (data) {
         if ($bean.isNotEmpty(data)) {
             if (data['channelId'] == this.requestChat['channelId']) {
-                if (data['value']['oldCountMessengers'] == this.requestChat['position']) {
-                    this.listMessengers.push(data['value']);
-                    this.requestChat['position']++;
-                    this.requestChat['lastMessengerId'] = data['value'].id;
-                    this.updateStatusUserChat();
-                }
-                else {
-                    this.loadMoreMessenger(data['value']['oldCountMessengers'] + 1 - this.requestChat['position'], this.requestChat['position']);
-                }
+                // if (data['value']['oldCountMessengers'] == this.requestChat['position']) {
+                this.listMessengers.push(data['value']);
+                this.requestChat['position']++;
+                this.requestChat['lastMessengerId'] = data['value'].id;
+                // this.updateStatusUserChat();
+                // } else {
+                //   this.loadMoreMessenger(data['value']['oldCountMessengers'] + 1 - this.requestChat['position'], this.requestChat['position']);
+                // }
             }
             else {
                 if ($bean.isNotEmpty(data['value'].channelTitle)) {

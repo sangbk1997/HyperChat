@@ -3,7 +3,7 @@ const secret = require('../config/env').JWT_SECRET;
 
 let checkToken = (req, res, next) => {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
-    if (token.startsWith('Bearer ')) {
+    if (token && token.startsWith('Bearer ')) {
         // Remove Bearer from string
         token = token.slice(7, token.length);
     }
@@ -11,22 +11,23 @@ let checkToken = (req, res, next) => {
     if (token) {
         jwt.verify(token, secret, (err, decoded) => {
             if (err) {
-                return res.json({
-                    success: false,
-                    message: 'Token is not valid'
-                })
+                // return res.json({
+                //     success: false,
+                //     message: 'Token is invalid !'
+                // })
+                next();
             } else {
-                req.decoded = decoded;
-                console.log(req);
+                req.session.user = decoded.user;
                 next();
             }
         })
     } else {
-        return res.json({
-            success: false,
-            message: 'Auth token is not supplied'
-        })
+        next();
+        // return res.json({
+        //     success: false,
+        //     message: 'Auth token is not supplied'
+        // })
     }
 }
 
-module.exports = {checkToken: checkToken}
+module.exports = checkToken

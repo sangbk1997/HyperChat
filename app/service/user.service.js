@@ -45,6 +45,20 @@ var userService = {
                     console.log('Session');
                     req.session.user = user.dataValues;
                     console.log(req.session);
+                    let token = jwt.sign({
+                        user: user
+                    }, jwt_secret, {
+                        expiresIn: '1h'
+                    })
+
+                    // return the JWT token for the future API calls
+
+                    result = {
+                        success: true,
+                        message: 'Xác thực thành công',
+                        token: token
+                    }
+                    res.setHeader('Authorization', 'Bearer ' + token);
                     // async update status Login user
                     baseDao.quickUpdate({
                         id: req.session.user.id,
@@ -90,25 +104,24 @@ var userService = {
                 // result = user;
 
                 let token = jwt.sign({
-                    userId: user.id
+                    user: user
                 }, jwt_secret, {
-                    expiresIn: '24h'
+                    expiresIn: '1h'
                 })
 
                 // return the JWT token for the future API calls
 
                 result = {
                     success: true,
-                    message: 'Authentication successful !',
+                    message: 'Xác thực thành công',
+                    user: user,
                     token: token
                 }
 
                 baseDao.quickUpdate({
-                    id: req.session.user.id,
+                    id: user.id,
                     statusLogin: userStatic.STATUS_LOGIN
                 }, listModelType.modelTypeUser).then(function (user) {
-                    console.log('Success update login mobile');
-                    console.log(user);
                 }).catch(function (err) {
                     console.log(err);
                 })
@@ -116,7 +129,7 @@ var userService = {
         } else {
             result = {
                 success: false,
-                message: 'Incorrect username or password'
+                message: 'Sai tài khoản hoặc mật khẩu'
             }
         }
         return result;
@@ -177,23 +190,26 @@ var userService = {
             if ($bean.isNotEmpty(foundUser)) {
                 console.log('Email exist ?');
                 console.log(foundUser);
-                result = {error: 'user is exist'};
+                result = {
+                    success: false,
+                    message: 'Người dùng đã tồn tại'
+                };
             } else {
                 var agent = useragent.parse(req.headers['user-agent']);
                 console.log('Agent');
                 console.log(req.headers['user-agent']);
                 console.log(req);
                 var md = new MobileDetect(req.headers['user-agent']);
-                console.log( md.mobile() );          // 'Sony'
-                console.log( md.phone() );           // 'Sony'
-                console.log( md.tablet() );          // null
-                console.log( md.userAgent() );       // 'Safari'
-                console.log( md.os() );              // 'AndroidOS'
-                console.log( md.is('iPhone') );      // false
-                console.log( md.is('bot') );         // false
-                console.log( md.version('Webkit') );         // 534.3
-                console.log( md.versionStr('Build') );       // '4.1.A.0.562'
-                console.log( md.match('playstation|xbox') ); // false
+                console.log(md.mobile());          // 'Sony'
+                console.log(md.phone());           // 'Sony'
+                console.log(md.tablet());          // null
+                console.log(md.userAgent());       // 'Safari'
+                console.log(md.os());              // 'AndroidOS'
+                console.log(md.is('iPhone'));      // false
+                console.log(md.is('bot'));         // false
+                console.log(md.version('Webkit'));         // 534.3
+                console.log(md.versionStr('Build'));       // '4.1.A.0.562'
+                console.log(md.match('playstation|xbox')); // false
                 var userObj = {};
                 for (key in listModelType.modelTypeUser.mapObj) {
                     userObj[listModelType.modelTypeUser.mapObj[key].title] = req.body[key];
@@ -206,7 +222,10 @@ var userService = {
                 result = await baseDao.insert(userObj, listModelType.modelTypeUser);
             }
         } else {
-            throw new Error('error.user.null');
+            result = {
+                success: false,
+                message: 'Thông tin đăng ký chưa phù hợp'
+            };
         }
         return result;
     },

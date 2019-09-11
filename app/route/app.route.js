@@ -24,6 +24,10 @@ var modelTypeUser = {
 // SET STORAGE
 var storage = multer.diskStorage({
     destination: async function (req, file, cb) {
+        console.log('Upload File Name');
+        console.log(file);
+        console.log('Req body');
+        console.log(req.body);
         let objMessenger = {
             userId: req.session.user.id,
             channelId: req.body.channelId,
@@ -164,6 +168,8 @@ module.exports = function (app) {
 
     app.post('/upload', uploadFile.single('file'), (req, res, next) => {
         const file = req.file
+        console.log('Update upload File');
+        console.log(file);
         if (file) {
             let updateMessenger = {
                 id: req.session[req.body['fileId']].messengerId,
@@ -212,6 +218,8 @@ module.exports = function (app) {
         let findMessenger = await messengerService.get(messengerId);
         // res.json({'message': 'abc'});
         if ($bean.isNotEmpty(findMessenger)) {
+            console.log('File');
+            console.log(findMessenger);
             fs.readFile(rootPathUploadFile + '/' + findMessenger.path, function (err, data) {
                 if (err) throw err; // Fail if the file can't be read.
                 res.writeHead(200, {'Content-Type': findMessenger.contentType});
@@ -308,8 +316,6 @@ module.exports = function (app) {
 
     app.post('/subChannel', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        console.log('User session');
-        console.log(req.session.user.id);
         let sessionId = (req.body.userId) ? req.body.userId : req.session.user.id;
         // socketService.subChannel(req.session.user.id, req.body.channelId).then(function (data) {
         //     res.json(data);
