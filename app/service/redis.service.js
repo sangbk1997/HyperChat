@@ -8,6 +8,7 @@ const socket = require('./socket.service');
 const listModelType = require('../common/obj/modelType/listModelType');
 var $bean = require('../common/utils/hyd-bean-utils');
 var userStatic = require('../common/obj/objStatic/userStatic');
+var HyperError = require("../common/obj/hyper-error/hyper-error")
 
 var redisService = {
 
@@ -54,27 +55,25 @@ var redisService = {
 
     pubStreamObj: (value) => {
         if ($bean.isEmpty(value)) {
-            throw new Error("error.entity.null");
+            throw new HyperError("EMPTY_OBJECT", 400, "Dữ liệu không hợp lệ !");
         }
         let key = $bean.genRandomID(16);
         redisPushStream.set(key, $bean.getJson(value), function (err, reply) {
             if (!err) {
-                redisService.pubObjToChannel(value).then(res => {
-                    console.log('Pub to channel ');
+                redisService.pubObjToChat(value).then(res => {
+                    console.log('Pub to chat ');
                     console.log(res);
                     redisService.deleteRedis(key, redisPushStream);
                     redisService.getRedis(key, redisPushStream);
-                }).catch(err => {
-                    redisService.pubObjToChannel(value);
                 })
             } else {
-                console.log('Error set to redis ' + err);
+                throw new HyperError("Hệ thống Redis cache gặp lỗi !");
             }
         });
     },
 
-    async pubObjToChannel(value) {
-        let result = await socket.pubToChannel(value);
+    async pubObjToChat(object) {
+        let result = await socket.pubToChat(object);
         return result;
     },
 

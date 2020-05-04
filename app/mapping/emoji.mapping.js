@@ -5,16 +5,13 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             primaryKey: true
         },
-        [emojiModel.name.title]: {
-            type: Sequelize.STRING
-        },
-        [emojiModel.native.title]: {
+        [emojiModel.code.title]: {
             type: Sequelize.STRING
         },
         [emojiModel.text.title]: {
             type: Sequelize.STRING
         },
-        [emojiModel.keywords.title]: {
+        [emojiModel.type.title]: {
             type: Sequelize.STRING
         }
     });

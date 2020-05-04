@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
         [userMessengerModel.userId.title]: {
             type: Sequelize.STRING
         },
-        [userMessengerModel.channelId.title]: {
+        [userMessengerModel.chatId.title]: {
             type: Sequelize.STRING
         },
         [userMessengerModel.messengerId.title]: {
@@ -21,7 +21,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             defaultValue: 'USER_MESSENGER'
         },
-        [userMessengerModel.emoji.title]: {
+        [userMessengerModel.textEmoji.title]: {
+            type: Sequelize.STRING
+        },
+        [userMessengerModel.codeEmoji.title]: {
             type: Sequelize.STRING
         },
         [userMessengerModel.readDate.title]: {

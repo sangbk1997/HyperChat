@@ -5,6 +5,7 @@ const redisConfig = require('../common/config/redis.config');
 const redisApp = redisConfig.redisApp;
 const redisPushStream = redisConfig.redisPushStream;
 var $bean = require('../common/utils/hyd-bean-utils');
+var HyperError = require('../common/obj/hyper-error/hyper-error')
 var baseDao = {
 
     // Crud with DB
@@ -12,7 +13,7 @@ var baseDao = {
     // modelType : Xác định bạn đang làm việc trên bảng (database)
 
     async insert(value, modelType) {   // value : đối tượng cần thêm mới
-        if ($bean.isNotEmpty(value)) {
+        if ($bean.isNotEmpty(value) && $bean.isNotEmpty(modelType)) {
             var objStorage = {};
             let result = {};
             for (key in modelType.mapObj) {
@@ -36,16 +37,15 @@ var baseDao = {
             //                     console.log(key + " does't exists in redis !");
             //                 }
             //             } else {
-            //                 throw new Error('error.delete.entity.from.redis');
             //             }
             //         });
             //     }
             // } else {
-            //     throw new Error('error.save.entity');
             // }
             return result;
+        } else {
+            throw new HyperError("EMPTY_DATA", 400, "Dữ liệu không hợp lệ");
         }
-        throw new Error('error.entity.null');
     },
 
     async list(modelType) {
@@ -55,11 +55,24 @@ var baseDao = {
 
     async findById(id, modelType) {  // id: id đối tượng
         let result = await modelType.mapTable.findByPk(id);
-        if ($bean.isNotEmpty(result)) {
-            return result;
-        } else {
-            throw new Error('error.entity.not.exist');
+        return result;
+    },
+
+    async findByField(fieldObj, modelType) {  // id: id đối tượng
+        let result = {};
+        let valueSearch = [];
+        for (var key in fieldObj) {
+            let object = {};
+            object[key] = fieldObj[key];
+            valueSearch.push(object);
         }
+        if ($bean.isNotEmpty(fieldObj)) {
+            result = await modelType.mapTable.findOne({
+                where: {[Op.and]: valueSearch},
+                limit: 1
+            });
+        }
+        return result;
     },
 
     async update(newObj, modelType) {  // value: đối tượng update

@@ -7,9 +7,8 @@ const Op = Sequelize.Op;
 const baseDao = require('../dao/base.dao');
 const listModelType = require('../common/obj/modelType/listModelType');
 const redisService = require('./redis.service');
-const TYPE_NEW_REACT = 'NEW_REACT';
-const TYPE_UPDATED_REACT = 'UPDATED_REACT';
-const TYPE_DELETED_REACT = 'DELETED_REACT';
+const TYPE_NEW_REACT_MESSENGER = 'NEW_REACT_MESSENGER';
+const TYPE_REMOVE_REACT_MESSENGER = 'REMOVE_REACT_MESSENGER';
 var $bean = require('../common/utils/hyd-bean-utils');
 var userMessengerService = {
 
@@ -84,18 +83,12 @@ var userMessengerService = {
     },
 
     async doInsert(userLogin, userMessenger) {
-        // let channel = baseDao.findById(messenger.channelId, listModelType.modelTypeChannel);
-        // let userChannel = userChannelDao.findUserChannel(messenger['userId'], messenger['channelId']);
-        // let checkValidRequest = await Promise.all([channel, userChannel]);
-        // if ($bean.isEmpty(checkValidRequest) || $bean.isEmpty(checkValidRequest[0]) || $bean.isEmpty(checkValidRequest[1])) {
-        //     throw new Error('error.permission.denied');
-        // } else {
         let objUserMessenger = {};
         for (key in listModelType.modelTypeUserMessenger.mapObj) {
             objUserMessenger[listModelType.modelTypeUserMessenger.mapObj[key].title] = userMessenger[key];
         }
         if ($bean.isNil(objUserMessenger['id'])) {
-            objUserMessenger['id'] = $bean.genRandomID(16 );
+            objUserMessenger['id'] = $bean.genRandomID(16);
         }
         if ($bean.isNil(objUserMessenger['userId'])) {
             objUserMessenger['userId'] = userLogin.id;
@@ -107,17 +100,16 @@ var userMessengerService = {
             objUserMessenger['reactDate'] = new Date();
         }
 
-        // Gửi messenger realtime lên channel
+        // Gửi messenger realtime lên chat
         let realTimeUserMessenger = $bean.cloneJson(objUserMessenger);
         realTimeUserMessenger['user'] = userLogin;
         // Realtime về người dùng
         redisService.pubStreamObj({
-            type: TYPE_NEW_REACT,
+            type: TYPE_NEW_REACT_MESSENGER,
             value: realTimeUserMessenger,
             messengerId: realTimeUserMessenger.messengerId,
-            channelId: realTimeUserMessenger.channelId
+            chatId: realTimeUserMessenger.chatId
         });
-        // Lưu messenger vào database
         let result = await baseDao.insert(objUserMessenger, listModelType.modelTypeUserMessenger);
         return result;
     },
@@ -126,10 +118,10 @@ var userMessengerService = {
         let deletedUserMessenger = await baseDao.delete(userMessengerId, listModelType.modelTypeUserMessenger);
         if ($bean.isNotEmpty(deletedUserMessenger)) {
             redisService.pubStreamObj({
-                type: TYPE_DELETED_REACT,
+                type: TYPE_REMOVE_REACT_MESSENGER,
                 value: deletedUserMessenger,
                 messengerId: deletedUserMessenger.messengerId,
-                channelId: deletedUserMessenger.channelId
+                chatId: deletedUserMessenger.chatId
             });
         }
         return deletedUserMessenger;

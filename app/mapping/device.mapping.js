@@ -5,31 +5,37 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             primaryKey: true
         },
-        [deviceModel.username.title]: {
+        [deviceModel.userId.title]: {
             type: Sequelize.STRING
         },
-        [deviceModel.tokenValue.title]: {
+        [deviceModel.brand.title]: {
             type: Sequelize.STRING
         },
-        [deviceModel.cookies.title]: {
-            type: Sequelize.STRING
-        },
-        [deviceModel.createdDate.title]: {
-            type: Sequelize.STRING
-        },
-        [deviceModel.sessionCode.title]: {
-            type: Sequelize.STRING
-        },
-        [deviceModel.token.title]: {
+        [deviceModel.deviceId.title]: {
             type: Sequelize.STRING
         },
         [deviceModel.deviceName.title]: {
+            type: Sequelize.STRING
+        },
+        [deviceModel.manufacturer.title]: {
+            type: Sequelize.STRING
+        },
+        [deviceModel.model.title]: {
             type: Sequelize.STRING
         },
         [deviceModel.osName.title]: {
             type: Sequelize.STRING
         },
         [deviceModel.osVersion.title]: {
+            type: Sequelize.STRING
+        },
+        [deviceModel.tokenLogin.title]: {
+            type: Sequelize.STRING
+        },
+        [deviceModel.tokenFcm.title]: {
+            type: Sequelize.STRING
+        },
+        [deviceModel.sessionCode.title]: {
             type: Sequelize.STRING
         },
         [deviceModel.status.title]: {

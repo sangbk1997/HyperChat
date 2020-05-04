@@ -25,7 +25,10 @@ module.exports = (sequelize, Sequelize) => {
             [userModel.email.title]: {
                 type: Sequelize.STRING
             },
-            [userModel.avatar.title]: {
+            [userModel.salt.title]: {
+                type: Sequelize.STRING
+            },
+            [userModel.avatar_url.title]: {
                 type: Sequelize.STRING
             },
             [userModel.location.title]: {

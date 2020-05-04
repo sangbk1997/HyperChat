@@ -1,16 +1,16 @@
 const axios = require('axios');
 const hostPushStream = 'http://172.20.30.107';
-const userChannelDao = require('../dao/userChannel.dao');
+const userChatDao = require('../dao/userChat.dao');
 var $bean = require('../common/utils/hyd-bean-utils');
 
 var socket = {
-    subChannel(userId, channelId) {
-        return userChannelDao.findUserChannel(userId, channelId);
+    subChat(userId, chatId) {
+        return userChatDao.findUserChat(userId, chatId);
     },
 
-    pubToChannel(object) {
-        console.log('Pub to Channel');
-        var url = hostPushStream + '/pub?id=' + object['channelId'];
+    pubToChat(object) {
+        console.log('Pub to Chat');
+        var url = hostPushStream + '/pub?id=' + object['chatId'];
         // var url = hostPushStream + '/pub?id=' + "hyper";
         console.log('Pub url ' + url);
         return axios.post(url, $bean.encodeObject(object));

@@ -1,11 +1,16 @@
 const db = require('../../../common/config/db.config');
 const userModel = require('../../../model/user.model');
 const messengerModel = require('../../../model/messenger.model');
-const channelModel = require('../../../model/channel.model');
+const chatModel = require('../../../model/chat.model');
 const emojiModel = require('../../../model/emoji.model');
+const deviceModel = require('../../../model/device.model');
 const userMessengerModel = require('../../../model/userMessenger.model');
-const userChannelModel = require('../../../model/userChannel.model');
+const userChatModel = require('../../../model/userChat.model');
 const userFriendModel = require('../../../model/userFriend.model');
+const postModel = require('../../../model/post.model');
+const commentModel = require('../../../model/comment.model');
+const userReactPostCommentModel = require('../../../model/userReactPostComment.model');
+const notificationModel = require('../../../model/notification.model');
 
 var listModelType = {
 
@@ -13,9 +18,9 @@ var listModelType = {
         mapTable: db.user,
         mapObj: userModel
     },
-    modelTypeChannel: {
-        mapTable: db.channel,
-        mapObj: channelModel
+    modelTypeChat: {
+        mapTable: db.chat,
+        mapObj: chatModel
     },
     modelTypeMessenger: {
         mapTable: db.messenger,
@@ -25,9 +30,13 @@ var listModelType = {
         mapTable: db.emoji,
         mapObj: emojiModel
     },
-    modelTypeUserChannel: {
-        mapTable: db.userChannel,
-        mapObj: userChannelModel
+    modelTypeDevice: {
+        mapTable: db.device,
+        mapObj: deviceModel
+    },
+    modelTypeUserChat: {
+        mapTable: db.userChat,
+        mapObj: userChatModel
     },
     modelTypeUserMessenger: {
         mapTable: db.userMessenger,
@@ -37,6 +46,26 @@ var listModelType = {
     modelTypeUserFriend: {
         mapTable: db.userFriend,
         mapObj: userFriendModel
+    },
+
+    modelTypePost: {
+        mapTable: db.post,
+        mapObj: postModel
+    },
+
+    modelTypeComment: {
+        mapTable: db.comment,
+        mapObj: commentModel
+    },
+
+    modelTypeUserReactPostComment: {
+        mapTable: db.userReactPostComment,
+        mapObj: userReactPostCommentModel
+    },
+
+    modelTypeNotification: {
+        mapTable: db.notification,
+        mapObj: notificationModel
     }
 }
 

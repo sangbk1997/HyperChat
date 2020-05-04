@@ -15,7 +15,7 @@ var modelTypeMessenger = {
 module.exports = function (app) {
     // app.post('/ws', function (req, res) {
     //     console.log(req.body);
-    //     res.send(socketService.subChannel(req.body.channelId));
+    //     res.send(socketService.subChat(req.body.chatId));
     // });
 
     // app.post('/pub', function (req, res) {

@@ -8,14 +8,17 @@ module.exports = (sequelize, Sequelize) => {
         [messengerModel.userId.title]: {
             type: Sequelize.STRING
         },
-        [messengerModel.channelId.title]: {
+        [messengerModel.chatId.title]: {
+            type: Sequelize.STRING
+        },
+        [messengerModel.refId.title]: {
             type: Sequelize.STRING
         },
         [messengerModel.title.title]: {
             type: Sequelize.STRING
         },
         [messengerModel.message.title]: {
-            type: Sequelize.STRING
+            type: Sequelize.TEXT
         },
         [messengerModel.role.title]: {
             type: Sequelize.STRING,

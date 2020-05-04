@@ -10,14 +10,14 @@ var $bean = require('../common/utils/hyd-bean-utils');
 var userMessengerDao = {
 
     //
-    // requestToChat(channelId) {
-    //     userChannelService.requestChat(channelId).then(function (request) {
+    // requestToChat(chatId) {
+    //     userChatService.requestChat(chatId).then(function (request) {
     //         //    Notification here
     //     })
     // },
     //
     // doRejectRequest(requestId) {
-    //     return baseService.doDelete(requestId, modelTypeUserChannel).then(function (data) {
+    //     return baseService.doDelete(requestId, modelTypeUserChat).then(function (data) {
     //         console.log('Reject request success !');
     //         console.log(data);
     //         return data;
@@ -52,11 +52,11 @@ var userMessengerDao = {
         return result;
     },
 
-    async deleteByChannel(channelId) {
+    async deleteByChat(chatId) {
         let result = {};
-        let rowAffected = await UserMessenger.destroy({where: {channelId: channelId}});
+        let rowAffected = await UserMessenger.destroy({where: {chatId: chatId}});
         if ($bean.isNotNil(rowAffected)) {
-            result = {message: 'Delete all user-messenger by channel success !'};
+            result = {message: 'Delete all user-messenger by chat success !'};
         }
         return result;
     },

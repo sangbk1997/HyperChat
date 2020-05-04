@@ -27,8 +27,12 @@ var userModel = {
         title: 'email',
         value: undefined
     },
-    avatar: {
-        title: 'avatar',
+    salt: {
+        title: 'salt',
+        value: undefined
+    },
+    avatar_url: {
+        title: 'avatar_url',
         value: undefined
     },
     location: {

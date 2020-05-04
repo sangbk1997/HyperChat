@@ -29,21 +29,21 @@ var messengerDao = {
     //
     //
     //
-    // searchMessageByChannel(value, channelId, number, offset,) {
+    // searchMessageByChat(value, chatId, number, offset,) {
     //     if($bean.isNotEmpty(messageId)){
-    //         throw new Error('error.channel.null')
+    //         throw new Error('error.chat.null')
     //     }
     //     if ($bean.isNumber(number) && $bean.isNumber(offset)) {
     //         return Messenger.findAll({
-    //             where: {[Op.and]: [{channelId: channelId}, {message: {[Op.substring]: value}}]},
+    //             where: {[Op.and]: [{chatId: chatId}, {message: {[Op.substring]: value}}]},
     //             limit: number,
     //             offset: offset
     //         })
     //     } else {
     //         if ($bean.isNotEmpty(value)) {
-    //             return Messenger.findAll({where: {[Op.and]: [{channelId: channelId}, {message: {[Op.substring]: value}}]}})
+    //             return Messenger.findAll({where: {[Op.and]: [{chatId: chatId}, {message: {[Op.substring]: value}}]}})
     //         } else {
-    //             return Messenger.findAll({where: {[Op.and]: [{channelId: channelId}]}});
+    //             return Messenger.findAll({where: {[Op.and]: [{chatId: chatId}]}});
     //         }
     //     }
     // }
@@ -70,8 +70,8 @@ var messengerDao = {
     //     })
     // },
     //
-    // loadMoreMessage(channelId, number, offset) {
-    //     messengerService.getMessengerByChannel(channelId, number, offset).then(function (data) {
+    // loadMoreMessage(chatId, number, offset) {
+    //     messengerService.getMessengerByChat(chatId, number, offset).then(function (data) {
     //         // Cập nhật trạng thái react của user - messenger
     //         if ($bean.isNotEmpty(data)) {
     //             for (let i = 0; i < data.length; i++) {
@@ -85,9 +85,9 @@ var messengerDao = {
     //     })
     // },
 
-    async deleteByChannel(channelId) {
+    async deleteByChat(chatId) {
         let result = {};
-        let rowAffected = await Messenger.destroy({where: {channelId: channelId}});
+        let rowAffected = await Messenger.destroy({where: {chatId: chatId}});
         if ($bean.isNotNil(rowAffected)) {
             result = {message: 'Xóa tin nhắn theo kênh chat thành công'};
         }
@@ -107,33 +107,40 @@ var messengerDao = {
         return result;
     },
 
-    async getMessengerByChannel(channelId, number, offset) {
-        let result = [];
-        result = await Messenger.findAll({
-            where: {channelId: channelId},
+    async getMessengerByChat(chatId, number, offset) {
+        console.log(number)
+        console.log(offset)
+        let messengers = [];
+        messengers = await Messenger.findAll({
+            where: {chatId: chatId},
             include: [
                 {
-                    model: User
+                    model: Messenger, as: 'refMessenger',
+                    include: [{
+                        model: User, attributes: ['id', 'username', 'avatar_url']
+                    },]
+                },
+                {
+                    model: User, attributes: ['id', 'username', 'avatar_url']
                 },
                 {
                     model: UserMessenger,
                     include: [{
-                        model: User
+                        model: User, attributes: ['id', 'username', 'avatar_url']
                     }]
                 }
             ],
+            order: [['createdAt', 'DESC']],
             limit: number,
             offset: offset,
-            order: [['createdAt', 'ASC']]
-            // order: [['createdAt', 'DESC']],
         })
-        return result;
+        return messengers;
     },
 
-    async getPreviousMessengers(channelId, number, offset) {
+    async getPreviousMessengers(chatId, number, offset) {
         let result = [];
         console.log('Loadprevisou');
-        console.log(channelId);
+        console.log(chatId);
         console.log(number);
         console.log(offset);
         if ($bean.isNumber(number) && $bean.isNumber(offset)) {
@@ -141,11 +148,11 @@ var messengerDao = {
                 number = ((offset - number) > 0) ? number : offset;
                 offset = ((offset - number) > 0) ? (offset - number) : 0;
                 console.log('Loadprevisou into');
-                console.log(channelId);
+                console.log(chatId);
                 console.log(number);
                 console.log(offset);
                 result = await Messenger.findAll({
-                    where: {channelId: channelId},
+                    where: {chatId: chatId},
                     include: [
                         {
                             model: User
@@ -166,19 +173,19 @@ var messengerDao = {
         return result;
     },
 
-    async getMoreMessengers(channelId, number, offset) {
+    async getMoreMessengers(chatId, number, offset) {
         console.log('Loadmore init');
-        console.log(channelId);
+        console.log(chatId);
         console.log(number);
         console.log(offset);
         let result = [];
         if ($bean.isNumber(number) && $bean.isNumber(offset) && (number != 0)) {
             console.log('Loadmore indeep');
-            console.log(channelId);
+            console.log(chatId);
             console.log(number);
             console.log(offset);
             result = await Messenger.findAll({
-                where: {channelId: channelId},
+                where: {chatId: chatId},
                 include: [
                     {
                         model: User
@@ -198,13 +205,13 @@ var messengerDao = {
         return result;
     },
 
-    async countByChannel(channelId) {
-        let listMessenger = [];
-        listMessenger = await Messenger.findAll({
-            attributes: ['id'],
-            where: {channelId: channelId}
+    async countByChat(chatId) {
+        let result = {};
+        result = await Messenger.findOne({
+            attributes: [[Sequelize.fn('COUNT', Sequelize.col('id')), 'count']],
+            where: {chatId: chatId}
         });
-        return listMessenger.length;
+        return result;
     }
 }
 

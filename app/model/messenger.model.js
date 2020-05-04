@@ -7,8 +7,12 @@ var messengerModel = {
         title: 'userId',
         value: undefined
     },
-    channelId: {
-        title: 'channelId',
+    chatId: {
+        title: 'chatId',
+        value: undefined
+    },
+    refId: {
+        title: 'refId',
         value: undefined
     },
     title: {

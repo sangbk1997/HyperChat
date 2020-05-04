@@ -3,32 +3,28 @@ var deviceModel = {
         title: 'id',
         value: undefined
     },
-    username: {
-        title: 'username',
+    userId: {
+        title: 'userId',
         value: undefined
     },
-    tokenValue: {
-        title: 'tokenValue',
+    brand: {
+        title: 'brand',
         value: undefined
     },
-    cookies: {
-        title: 'cookies',
-        value: undefined
-    },
-    createdDate: {
-        title: 'createdDate',
-        value: undefined
-    },
-    sessionCode: {
-        title: 'sessionCode',
-        value: undefined
-    },
-    token: {
-        title: 'token',
+    deviceId: {
+        title: 'deviceId',
         value: undefined
     },
     deviceName: {
         title: 'deviceName',
+        value: undefined
+    },
+    manufacturer: {
+        title: 'manufacturer',
+        value: undefined
+    },
+    model: {
+        title: 'model',
         value: undefined
     },
     osName: {
@@ -37,6 +33,18 @@ var deviceModel = {
     },
     osVersion: {
         title: 'osVersion',
+        value: undefined
+    },
+    tokenLogin: {
+        title: 'tokenLogin',
+        value: undefined
+    },
+    tokenFcm: {
+        title: 'tokenFcm',
+        value: undefined
+    },
+    sessionCode: {
+        title: 'sessionCode',
         value: undefined
     },
     status: {

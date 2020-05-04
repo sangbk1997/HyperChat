@@ -8,7 +8,7 @@ const userModel = require('../model/user.model');
 const User = db.user;
 const UserFriend = db.userFriend;
 const Messenger = db.messenger;
-const Channel = db.channel;
+const Chat = db.chat;
 const UserMessenger = db.userMessenger;
 const Op = Sequelize.Op;
 var $bean = require('../common/utils/hyd-bean-utils');
@@ -16,19 +16,19 @@ const userStatic = require('../common/obj/objStatic/userStatic');
 var commonStatic = require('../common/obj/objStatic/commonStatic');
 const baseDao = require('../dao/base.dao');
 const userDao = require('../dao/user.dao');
-const channelDao = require('../dao/channel.dao');
-const userChannelDao = require('../dao/userChannel.dao');
+const chatDao = require('../dao/chat.dao');
+const userChatDao = require('../dao/userChat.dao');
 const messengerDao = require('../dao/messenger.dao');
 const redisService = require('./redis.service');
 const listModelType = require('../common/obj/modelType/listModelType');
 let useragent = require('useragent');
 let jwt = require('jsonwebtoken');
 let jwt_secret = require('../common/config/env').JWT_SECRET;
-let middleware = require('../common/middleware/JWT_authentication');
+let middleware = require('../common/middleware/jwt-authentication');
 var MobileDetect = require('mobile-detect')
-var userService = {
+var HyperError = require("../common/obj/hyper-error/hyper-error")
 
-//   New Code
+var userService = {
     login(req, res) {
         if ($bean.isNotNil(req.body)) {
             let email = req.body.email;
@@ -48,7 +48,7 @@ var userService = {
                     let token = jwt.sign({
                         user: user
                     }, jwt_secret, {
-                        expiresIn: '1h'
+                        ignoreExpiration: true
                     })
 
                     // return the JWT token for the future API calls
@@ -93,7 +93,7 @@ var userService = {
 
     async mobileLogin(req, res) {
         let result = {};
-        if ($bean.isNotNil(req.body)) {
+        if ($bean.isNotEmpty(req.body)) {
             let email = req.body.email;
             let password = req.body.password;
             let user = await userDao.findByEmail(email);
@@ -104,10 +104,8 @@ var userService = {
                 // result = user;
 
                 let token = jwt.sign({
-                    user: user
-                }, jwt_secret, {
-                    expiresIn: '1h'
-                })
+                    userId: user.id
+                }, jwt_secret)
 
                 // return the JWT token for the future API calls
 
@@ -118,19 +116,18 @@ var userService = {
                     token: token
                 }
 
-                baseDao.quickUpdate({
-                    id: user.id,
-                    statusLogin: userStatic.STATUS_LOGIN
-                }, listModelType.modelTypeUser).then(function (user) {
-                }).catch(function (err) {
-                    console.log(err);
-                })
+                // baseDao.quickUpdate({
+                //     id: user.id,
+                //     statusLogin: userStatic.STATUS_LOGIN
+                // }, listModelType.modelTypeUser).then(function (user) {
+                // }).catch(function (err) {
+                //     console.log(err);
+                // })
+            } else {
+                throw new HyperError("INVALID", 400, "Sai tài khoản hoặc mật khẩu")
             }
         } else {
-            result = {
-                success: false,
-                message: 'Sai tài khoản hoặc mật khẩu'
-            }
+            throw new HyperError("INVALID", 400, "Sai tài khoản hoặc mật khẩu")
         }
         return result;
     },
@@ -158,7 +155,7 @@ var userService = {
                     console.log(agent.device.toVersion());
                     console.log(agent.device.toJSON());
                     var userObj = {};
-                    for (key in listModelType.modelTypeUser.mapObj) {
+                    for (let key in listModelType.modelTypeUser.mapObj) {
                         userObj[listModelType.modelTypeUser.mapObj[key].title] = req.body[key];
                     }
                     userObj['isadmin'] = userStatic.IS_NOT_ADMIN;
@@ -185,49 +182,54 @@ var userService = {
 
     async mobileSignUp(req, res) {
         let result = {};
-        if ($bean.isNotEmpty(req.body)) {
+        if ($bean.isNotEmpty(req.body.email)) {
             let foundUser = await userDao.findByEmail(req.body.email);
             if ($bean.isNotEmpty(foundUser)) {
-                console.log('Email exist ?');
-                console.log(foundUser);
-                result = {
-                    success: false,
-                    message: 'Người dùng đã tồn tại'
-                };
+                throw new HyperError("USER_EXISTED", 400, "Tài khoản đã tồn tại trong hệ thống !")
             } else {
                 var agent = useragent.parse(req.headers['user-agent']);
-                console.log('Agent');
-                console.log(req.headers['user-agent']);
-                console.log(req);
-                var md = new MobileDetect(req.headers['user-agent']);
-                console.log(md.mobile());          // 'Sony'
-                console.log(md.phone());           // 'Sony'
-                console.log(md.tablet());          // null
-                console.log(md.userAgent());       // 'Safari'
-                console.log(md.os());              // 'AndroidOS'
-                console.log(md.is('iPhone'));      // false
-                console.log(md.is('bot'));         // false
-                console.log(md.version('Webkit'));         // 534.3
-                console.log(md.versionStr('Build'));       // '4.1.A.0.562'
-                console.log(md.match('playstation|xbox')); // false
+                // console.log('Agent');
+                // console.log(req.headers['user-agent']);
+                // console.log(req);
+                // var md = new MobileDetect(req.headers['user-agent']);
+                // console.log(md.mobile());          // 'Sony'
+                // console.log(md.phone());           // 'Sony'
+                // console.log(md.tablet());          // null
+                // console.log(md.userAgent());       // 'Safari'
+                // console.log(md.os());              // 'AndroidOS'
+                // console.log(md.is('iPhone'));      // false
+                // console.log(md.is('bot'));         // false
+                // console.log(md.version('Webkit'));         // 534.3
+                // console.log(md.versionStr('Build'));       // '4.1.A.0.562'
+                // console.log(md.match('playstation|xbox')); // false
                 var userObj = {};
-                for (key in listModelType.modelTypeUser.mapObj) {
+                for (let key in listModelType.modelTypeUser.mapObj) {
                     userObj[listModelType.modelTypeUser.mapObj[key].title] = req.body[key];
                 }
                 userObj['isadmin'] = userStatic.IS_NOT_ADMIN;
                 userObj['status'] = userStatic.STATUS_ACTIVE;
                 userObj['statuslogin'] = userStatic.STATUS_LOGOUT;
                 userObj['fullname'] = userObj['firstname'] + ' ' + userObj['lastname'];
-                userObj['username'] = userObj['fullname'];
+                userObj['username'] = userObj['username'] || userObj['fullname'];
                 result = await baseDao.insert(userObj, listModelType.modelTypeUser);
             }
         } else {
-            result = {
-                success: false,
-                message: 'Thông tin đăng ký chưa phù hợp'
-            };
+            throw new HyperError("NOT_FILL_INPUT", 400, "Nhập đầy đủ thông tin yêu cầu !");
+            // result = {
+            //     success: false,
+            //     message: 'Thông tin đăng ký chưa phù hợp'
+            // };
         }
         return result;
+    },
+
+    async mobileLogout(req, res) {
+        let user = await baseDao.quickUpdate({
+            id: req.session.user.id,
+            statuslogin: userStatic.STATUS_LOGOUT,
+            lastlogon: new Date()
+        }, listModelType.modelTypeUser);
+        return user;
     },
 
     logOut(req, res) {
@@ -250,10 +252,10 @@ var userService = {
         });
     },
 
-    setUpRequest(triggerIndentifier, recieverIndentifier, channelName) {
+    setUpRequest(triggerIndentifier, recieverIndentifier, chatName) {
         commonStatic.requestProperties.triggerIdentifier = triggerIndentifier;
         commonStatic.requestProperties.reciverIdentifier = recieverIndentifier;
-        commonStatic.requestProperties.channelName = channelName
+        commonStatic.requestProperties.chatName = chatName
     },
 
     setUpAuxiliaryMessage(triggerIndentifier, message, dateTime) {
@@ -315,8 +317,8 @@ var userService = {
 
     // Search by Attributes
 
-    async searchUsers(userLogin, value, number, offset) {
-        var result = await userDao.searchUser(userLogin, value, number, offset);
+    async searchUsers(userLogin, value) {
+        var result = await userDao.searchUser(userLogin, value);
         return result;
     },
 
@@ -333,20 +335,47 @@ var userService = {
         return userDao.listUserLogin(number, offset);
     },
 
-    async suggestPeople(userLogin, number, offset) {
-        return userDao.suggestPeople(userLogin, number, offset);
+    async suggestPeople(userLoginId, offset) {
+        return userDao.suggestPeople(userLoginId, offset);
     },
 
-    async suggestPeopleByChannel(channelId, number, offset) {
-        return userDao.suggestPeopleByChannel(channelId, number, offset);
+    async suggestFriends(userLoginId) {
+        let result = [];
+        let users = await userService.list();
+        if ($bean.isNotEmpty(users)) {
+            let promiseAll = [];
+            for (let i = 0; i < users.length; i++) {
+                if (users[i].id != userLoginId) {
+                    let getLinkWithUser = userChatDao.getLinkWithUser(users[i].id, userLoginId);
+                    promiseAll.push(getLinkWithUser);
+                }
+            }
+            let linkUserFriends = await Promise.all(promiseAll);
+            if ($bean.isNotEmpty(linkUserFriends)) {
+                let userIds = [];
+                for (let i = 0; i < linkUserFriends.length; i++) {
+                    if ($bean.isNotEmpty(linkUserFriends[i])) {
+                        userIds.push(linkUserFriends[i][0]['userId']);
+                    }
+                }
+                console.log("List UserIds");
+                console.log(userIds);
+                result = userDao.findListUsers(userIds);
+            }
+        }
+        return result;
+    },
+
+    async suggestPeopleByChat(chatId, number, offset) {
+        return userDao.suggestPeopleByChat(chatId, number, offset);
     },
 
     //
-    // getMyChannels(number, offset) {
+    // getMyChats(number, offset) {
     //     if ($bean.isNumber(number) && $bean.isNumber(offset)) {
     //         return User.findOne({
     //                 include: {
-    //                     model: Channel,
+    //                     model: Chat,
     //                     limit: number,
     //                     offset: offset,
     //                     order: [{'title': 'ASC'}]
@@ -357,7 +386,7 @@ var userService = {
     //     } else {
     //         return User.findOne({
     //                 include: {
-    //                     model: Channel,
+    //                     model: Chat,
     //                     order: [{'title': 'ASC'}]
     //                 },
     //                 where: {id: VGlobal['userLogin'].id}
@@ -366,10 +395,10 @@ var userService = {
     //     }
     // },
 
-    getMyChannels(userId, number, offset) {
+    getMyChats(userId, number, offset) {
         return User.findOne({
             include: [{
-                model: Channel,
+                model: Chat,
                 order: [{'title': 'ASC'}]
             }], where: {id: userId}
         })
@@ -445,16 +474,16 @@ var userService = {
 
     },
 
-    async subcribeChat(userId, channelId) {
-        let userChannel = await userChannelDao.findUserChannel(userId, channelId);
-        if ($bean.isNotEmpty(userChannel)) {
-            let updateUserChannel = {
+    async subcribeChat(userId, chatId) {
+        let userChat = await userChatDao.findUserChat(userId, chatId);
+        if ($bean.isNotEmpty(userChat)) {
+            let updateUserChat = {
                 statu
             }
         }
     },
 
-    async unSubcribeChat(userId, channelId) {
+    async unSubcribeChat(userId, chatId) {
 
     },
 
@@ -464,12 +493,12 @@ var userService = {
     },
 
 
-    // messagesByChannel(channelId, number, offset) {
+    // messagesByChat(chatId, number, offset) {
     //     if ($bean.isNumber(number) && $bean.isNumber(offset)) {
     //         return User.findOne({
     //                 include: {
-    //                     model: Channel,
-    //                     where: {id: channelId},
+    //                     model: Chat,
+    //                     where: {id: chatId},
     //                     include: {
     //                         model: Messenger,
     //                         limit: number,
@@ -483,7 +512,7 @@ var userService = {
     //     }
     // },
 
-    listMyContact(number, offset, userLogin) {
+    listMyUser(number, offset, userLogin) {
         return User.findAll({
             include: {
                 model: UserFriend,
@@ -495,9 +524,9 @@ var userService = {
         })
     },
 
-    async searchChatsAndContacts(value, number, offset) {
+    async searchChatsAndUsers(value, number, offset) {
         let searchUsers = await userService.searchUsers(value, number, offset);
-        let searchChannel = await channelDao.searchByUser()
+        let searchChat = await chatDao.searchByUser()
     },
 
     // sendMesssage(userId, messenger) {
@@ -507,22 +536,20 @@ var userService = {
     //     return messengerService.insertMessage(userId, messenger);
     // }
 
-    async checkLoadMessengers(userId, channelId) {
+    async checkLoadMessengers(userId, chatId) {
         let result = {};
-        let linkUserChannel = await userChannelDao.findUserChannel(userId, channelId);
-        if ($bean.isNotEmpty(linkUserChannel)) {
-            let countMessengersByChannel = await messengerDao.countByChannel(channelId);
+        let linkUserChat = await userChatDao.findUserChat(userId, chatId);
+        if ($bean.isNotEmpty(linkUserChat)) {
+            let countMessengersByChat = await messengerDao.countByChat(chatId);
             result = {
-                position: linkUserChannel.position,
-                countMessengers: countMessengersByChannel
+                position: linkUserChat.position,
+                countMessengers: countMessengersByChat
             }
         }
         return result;
-    },
+    }
 }
 
 module.exports = userService;
-
-
 // Chú thích biến
 // attributes: mảng các thuộc tính

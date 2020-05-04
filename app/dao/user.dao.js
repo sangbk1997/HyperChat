@@ -1,14 +1,15 @@
 const Sequelize = require('sequelize');
 const db = require('../common/config/db.config.js');
 const User = db.user;
-const Channel = db.channel;
+const Chat = db.chat;
 const Op = Sequelize.Op;
 const listModelType = require('../common/obj/modelType/listModelType');
 const baseDao = require('./base.dao');
-const userChannelDao = require('./userChannel.dao');
+const userChatDao = require('./userChat.dao');
 const userStatic = require('../common/obj/objStatic/userStatic');
 var $bean = require('../common/utils/hyd-bean-utils');
-
+const DEFAULT_NUMBER_USER = 20;
+const DEFAULT_OFFSET_USER = 0;
 var userDao = {
 
     async findByEmail(email) {
@@ -20,46 +21,47 @@ var userDao = {
         }
     },
 
-    async suggestPeople(userLogin, number, offset) {
-        let result = {};
-        if ($bean.isNumber(number) && $bean.isNumber(offset)) {
-            result = await User.findAll({
-                where: {id: {[Op.ne]: userLogin.id}},
-                limit: number,
-                offset: offset,
-                order: [["username", 'ASC']]
-            });
-        } else {
-            result = await User.findAll({where: {id: {[Op.ne]: userLogin.id}}, order: [["username", 'ASC']]});
+    async suggestPeople(userLoginId, offset) {
+        if (!$bean.isNumber(offset) || $bean.isNil(offset)) {
+            offset = 0
         }
+        let result = [];
+        result = await User.findAll({
+            where: {id: {[Op.ne]: userLoginId}},
+            attributes: ['id', 'username', 'email', 'avatar_url'],
+            order: [["username", 'ASC']],
+            limit: 20,
+            offset: offset
+        });
         return result;
     },
 
 
-    async suggestPeopleByChannel(channelId, number, offset) {
-        let listUserChannels = await userChannelDao.findByChannel(channelId);
-        let userInChannel = [];
-        if ($bean.isNotEmpty(listUserChannels)) {
-            for (let i = 0; i < listUserChannels.length; i++) {
-                userInChannel.push(listUserChannels[i]['userId']);
+    async suggestPeopleByChat(chatId, number, offset) {
+        let listUserChats = await userChatDao.findByChat(chatId);
+        let userInChat = [];
+        if ($bean.isNotEmpty(listUserChats)) {
+            for (let i = 0; i < listUserChats.length; i++) {
+                userInChat.push(listUserChats[i]['userId']);
             }
         }
         let result = {};
         if ($bean.isNumber(number) && $bean.isNumber(offset)) {
             result = await User.findAll({
-                where: {id: {[Op.notIn]: userInChannel}},
+                where: {id: {[Op.notIn]: userInChat}},
                 limit: number,
                 offset: offset,
                 order: [["username", 'ASC']]
             });
         } else {
             result = await User.findAll({
-                where: {id: {[Op.notIn]: userInChannel}},
+                where: {id: {[Op.notIn]: userInChat}},
                 order: [["username", 'ASC']]
             });
         }
         return result;
-    },
+    }
+    ,
 
     async listUserDisabled(number, offset) {
         let result = {};
@@ -74,7 +76,8 @@ var userDao = {
             result = await User.findAll({where: {status: userStatic.STATUS_DISABLED}, order: [["username", 'ASC']]});
         }
         return result;
-    },
+    }
+    ,
 
     async listUserActive(number, offset) {
         let result = {};
@@ -89,7 +92,8 @@ var userDao = {
             return User.findAll({where: {status: userStatic.STATUS_ACTIVE}, order: [["username", 'ASC']]});
         }
         return result;
-    },
+    }
+    ,
 
     async listUserLogin(number, offset) {
         let result = {};
@@ -104,7 +108,8 @@ var userDao = {
             result = await User.findAll({where: {statusLogin: userStatic.STATUS_LOGIN}, order: [["username", 'ASC']]});
         }
         return result;
-    },
+    }
+    ,
 
     async listUserAdmin(userLogin, number, offset) {
         let result = {};
@@ -123,7 +128,8 @@ var userDao = {
             throw new Error("error.permission.denied");
         }
         return result;
-    },
+    }
+    ,
 
     async userByGender(value, number, offset) {
         let result = {};
@@ -140,7 +146,8 @@ var userDao = {
             }
         }
         return result;
-    },
+    }
+    ,
 
     async countAllUsers() {
         console.log('Count All Users');
@@ -150,14 +157,11 @@ var userDao = {
         let result = {count: arrays[0].dataValues.count};
         console.log(result);
         return result;
-    },
+    }
+    ,
 
-    async searchUser(userLogin, value, number, offset) {
-        console.log('search users');
-        if (!($bean.isNumber(number) && $bean.isNumber(offset))) {
-            number = 10;
-            offset = 0;
-        }
+    async searchUser(userLogin, value) {
+        let formatValue = value.trim().toLowerCase();
         let result = await User.findAll({
             where: {
                 [Op.and]: [
@@ -165,12 +169,13 @@ var userDao = {
                     {[Op.or]: [{username: {[Op.substring]: value}}, {email: {[Op.substring]: value}}]}
                 ]
             },
-            limit: number,
-            offset: offset,
-            order: [['username', 'ASC'], ['email', 'ASC']]
+            order: [['username', 'ASC'], ['email', 'ASC']],
+            limit: DEFAULT_NUMBER_USER,
+            offset: DEFAULT_OFFSET_USER,
         });
         return result;
-    },
+    }
+    ,
 
     async countSearchUsers(userLogin, value) {
         console.log('Count search users');
@@ -186,35 +191,50 @@ var userDao = {
         return result;
     },
 
+    async findListUsers(userIds) {
+        let result = await User.findAll({
+            where: {
+                id: {
+                    [Op.in]: userIds
+                }
+            },
+            attributes: ['id', 'username', 'email', 'avatar_url', 'role'],
+            order: [['username', 'ASC']]
+        });
+        return result;
+    },
+
     blockUser(userId) {
 
-    },
+    }
+    ,
 
     enableUser(userId) {
 
-    },
+    }
+    ,
 
-    // async getMyChannels(number, offset) {
-    //     let result = {};
-    //     if ($bean.isNumber(number) && $bean.isNumber(offset)) {
-    //         result = await User.findOne({
-    //             include: [{
-    //                 model: Channel,
-    //                 order: [{'title': 'ASC'}],
-    //                 limit: number,
-    //                 offset: offset
-    //             }], where: {id: VGlobal['userLogin'].id}
-    //         })
-    //     } else {
-    //         result = await User.findOne({
-    //             include: [{
-    //                 model: Channel,
-    //                 order: [{'title': 'ASC'}]
-    //             }], where: {id: VGlobal['userLogin'].id}
-    //         })
-    //     }
-    //     return result;
-    // },
+// async getMyChats(number, offset) {
+//     let result = {};
+//     if ($bean.isNumber(number) && $bean.isNumber(offset)) {
+//         result = await User.findOne({
+//             include: [{
+//                 model: Chat,
+//                 order: [{'title': 'ASC'}],
+//                 limit: number,
+//                 offset: offset
+//             }], where: {id: VGlobal['userLogin'].id}
+//         })
+//     } else {
+//         result = await User.findOne({
+//             include: [{
+//                 model: Chat,
+//                 order: [{'title': 'ASC'}]
+//             }], where: {id: VGlobal['userLogin'].id}
+//         })
+//     }
+//     return result;
+// },
 }
 
 module.exports = userDao;

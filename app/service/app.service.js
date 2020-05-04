@@ -4,26 +4,26 @@
 // const db = require('../common/config/db.config');
 // var userModel = require('../model/user.model');
 // var messengerModel = require('../model/messenger.model');
-// var channelModel = require('../model/channel.model');
+// var chatModel = require('../model/chat.model');
 // var userMessengerModel = require('../model/userMessenger.model');
-// var userChannelModel = require('../model/userChannel.model');
+// var userChatModel = require('../model/userChat.model');
 // var userFriendModel = require('../model/userFriend.model');
 //
 // var modelTypeUser = {
 //     mapTable: db.user,
 //     mapObj: userModel
 // }
-// var modelTypeChannel = {
-//     mapTable: db.channel,
-//     mapObj: channelModel
+// var modelTypeChat = {
+//     mapTable: db.chat,
+//     mapObj: chatModel
 // }
 // var modelTypeMessenger = {
 //     mapTable: db.messenger,
 //     mapObj: messengerModel
 // }
-// var modelTypeUserChannel = {
-//     mapTable: db.userChannel,
-//     mapObj: userChannelModel
+// var modelTypeUserChat = {
+//     mapTable: db.userChat,
+//     mapObj: userChatModel
 // }
 // var modelTypeUserMessenger = {
 //     mapTable: db.userMessenger,
@@ -38,17 +38,17 @@
 // // require service
 // var baseService = require('./base.service');
 // var userService = require('./user.service');
-// var channelService = require('./channel.service');
+// var chatService = require('./chat.service');
 // var messengerService = require('./messenger.service');
 // var userMessengerService = require('./userMessenger.service');
-// var userChannelService = require('./userChannel.service');
+// var userChatService = require('./userChat.service');
 // var userFriendService = require('../service/userFriend.service');
 //
 // // require static
 // var userStatic = require('../common/obj/objStatic/userStatic');
-// var channelStatic = require('../common/obj/objStatic/channelStatic');
+// var chatStatic = require('../common/obj/objStatic/chatStatic');
 // var messengerStatic = require('../common/obj/objStatic/messengerStatic');
-// var userChannelStatic = require('../common/obj/objStatic/userChannelStatic');
+// var userChatStatic = require('../common/obj/objStatic/userChatStatic');
 // var userMessengerStatic = require('../common/obj/objStatic/userMessengerStatic');
 // var userFriendStatic = require('../common/obj/objStatic/userFriendStatic');
 //
@@ -60,3 +60,4 @@
 // }
 //
 // module.exports = appService;
+

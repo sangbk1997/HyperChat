@@ -7,8 +7,8 @@ var userMessengerModel = {
         title: 'userId',
         value: undefined
     },
-    channelId: {
-        title: 'channelId',
+    chatId: {
+        title: 'chatId',
         value: undefined
     },
     messengerId: {
@@ -24,8 +24,12 @@ var userMessengerModel = {
         title: 'role',
         value: undefined
     },
-    emoji: {
-        title: 'emoji',
+    textEmoji: {
+        title: 'textEmoji',
+        value: undefined
+    },
+    codeEmoji: {
+        title: 'codeEmoji',
         value: undefined
     },
     readDate: {

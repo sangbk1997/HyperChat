@@ -2,11 +2,11 @@ const env = {
     reverseProxy: {},
     nodeApp: {
         port: 80,
-        host: '172.20.40.132'
+        host: '172.20.80.13'
     },
     redisApp: {
         port: 6379,
-        host:  '172.20.40.132'
+        host: '172.20.80.12'
     },
     redisPushstream: {
         port: 6379,
@@ -15,10 +15,10 @@ const env = {
     pushStreamServer: {},
     mysqlDB: {
         // database: 'chatme',
-        database: 'HyperlogyChatApp',
-        username: 'monty',
+        database: 'chat',
+        username: 'root',
         password: 'Hyperlogya@123',
-        host: '172.20.40.124',
+        host: '172.20.80.11',
         dialect: 'mysql',
         pool: {
             max: 5,
