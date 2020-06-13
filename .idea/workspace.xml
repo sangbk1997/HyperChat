@@ -2,41 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5028e447-6109-4952-8ee2-a4f89c6b4b2f" name="Default Changelist" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/common/middleware/request-handler.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/common/middleware/winston-logger.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/common/obj/hyper-error/hyper-error.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/common/obj/objStatic/notificationStatic.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/dao/attachment.dao.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/dao/comment.dao.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/dao/device.dao.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/dao/notification.dao.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/dao/post.dao.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/dao/userReactPostComment.dao.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/mapping/attachment.mapping.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/mapping/comment.mapping.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/mapping/notification.mapping.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/mapping/post.mapping.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/mapping/userReactPostComment.mapping.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/model/attachment.model.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/model/comment.model.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/model/notification.model.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/model/post.model.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/model/userPrefs.model.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/model/userReactPostComment.model.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/route/attachment.route.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/route/comment.route.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/route/device.route.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/route/notification.route.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/route/post.route.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/route/pubStream.route.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/route/userReactPostComment.route.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/service/attachment.service.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/service/comment.service.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/service/device.service.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/service/notification.service.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/service/post.service.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/service/userReactPostComment.service.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/app.log" />
       <change beforePath="" afterPath="$PROJECT_DIR$/static/app-client/src/app/box/box-activities-messenger/box-activities-messenger.component.css" />
       <change beforePath="" afterPath="$PROJECT_DIR$/static/app-client/src/app/box/box-activities-messenger/box-activities-messenger.component.html" />
       <change beforePath="" afterPath="$PROJECT_DIR$/static/app-client/src/app/box/box-activities-messenger/box-activities-messenger.component.ts" />
@@ -92,71 +57,8 @@
       <change beforePath="" afterPath="$PROJECT_DIR$/static/app-client/src/app/modal/modal-forward-messenger/modal-forward-messenger.html" />
       <change beforePath="" afterPath="$PROJECT_DIR$/static/app-client/src/app/modal/modal-forward-messenger/modal-forward-messenger.ts" />
       <change beforePath="" afterPath="$PROJECT_DIR$/static/app-client/src/public/js/toastr.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/static/fcm-serviceAccount/fcm-account.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/static/ssl/caroot.cer" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/static/ssl/thekeystore.crt" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/common/config/db.config.js" afterPath="$PROJECT_DIR$/app/common/config/db.config.js" />
       <change beforePath="$PROJECT_DIR$/app/common/config/env.js" afterPath="$PROJECT_DIR$/app/common/config/env.js" />
-      <change beforePath="$PROJECT_DIR$/app/common/middleware/JWT_authentication.js" afterPath="$PROJECT_DIR$/app/common/middleware/jwt-authentication.js" />
-      <change beforePath="$PROJECT_DIR$/app/common/obj/modelType/listModelType.js" afterPath="$PROJECT_DIR$/app/common/obj/modelType/listModelType.js" />
-      <change beforePath="$PROJECT_DIR$/app/common/obj/objStatic/channelStatic.js" afterPath="$PROJECT_DIR$/app/common/obj/objStatic/chatStatic.js" />
-      <change beforePath="$PROJECT_DIR$/app/common/obj/objStatic/commonStatic.js" afterPath="$PROJECT_DIR$/app/common/obj/objStatic/commonStatic.js" />
-      <change beforePath="$PROJECT_DIR$/app/common/obj/objStatic/userChannelStatic.js" afterPath="$PROJECT_DIR$/app/common/obj/objStatic/userChatStatic.js" />
-      <change beforePath="$PROJECT_DIR$/app/dao/base.dao.js" afterPath="$PROJECT_DIR$/app/dao/base.dao.js" />
-      <change beforePath="$PROJECT_DIR$/app/dao/channel.dao.js" afterPath="$PROJECT_DIR$/app/dao/chat.dao.js" />
-      <change beforePath="$PROJECT_DIR$/app/dao/messenger.dao.js" afterPath="$PROJECT_DIR$/app/dao/messenger.dao.js" />
-      <change beforePath="$PROJECT_DIR$/app/dao/user.dao.js" afterPath="$PROJECT_DIR$/app/dao/user.dao.js" />
-      <change beforePath="$PROJECT_DIR$/app/dao/userChannel.dao.js" afterPath="$PROJECT_DIR$/app/dao/userChat.dao.js" />
-      <change beforePath="$PROJECT_DIR$/app/dao/userMessenger.dao.js" afterPath="$PROJECT_DIR$/app/dao/userMessenger.dao.js" />
-      <change beforePath="$PROJECT_DIR$/app/mapping/channel.mapping.js" afterPath="$PROJECT_DIR$/app/mapping/chat.mapping.js" />
-      <change beforePath="$PROJECT_DIR$/app/mapping/device.mapping.js" afterPath="$PROJECT_DIR$/app/mapping/device.mapping.js" />
-      <change beforePath="$PROJECT_DIR$/app/mapping/emoji.mapping.js" afterPath="$PROJECT_DIR$/app/mapping/emoji.mapping.js" />
-      <change beforePath="$PROJECT_DIR$/app/mapping/messenger.mapping.js" afterPath="$PROJECT_DIR$/app/mapping/messenger.mapping.js" />
-      <change beforePath="$PROJECT_DIR$/app/mapping/user.mapping.js" afterPath="$PROJECT_DIR$/app/mapping/user.mapping.js" />
-      <change beforePath="$PROJECT_DIR$/app/mapping/userChannel.mapping.js" afterPath="$PROJECT_DIR$/app/mapping/userChat.mapping.js" />
-      <change beforePath="$PROJECT_DIR$/app/mapping/userMessenger.mapping.js" afterPath="$PROJECT_DIR$/app/mapping/userMessenger.mapping.js" />
-      <change beforePath="$PROJECT_DIR$/app/model/channel.model.js" afterPath="$PROJECT_DIR$/app/model/chat.model.js" />
-      <change beforePath="$PROJECT_DIR$/app/model/device.model.js" afterPath="$PROJECT_DIR$/app/model/device.model.js" />
-      <change beforePath="$PROJECT_DIR$/app/model/emoji.model.js" afterPath="$PROJECT_DIR$/app/model/emoji.model.js" />
-      <change beforePath="$PROJECT_DIR$/app/model/messenger.model.js" afterPath="$PROJECT_DIR$/app/model/messenger.model.js" />
-      <change beforePath="$PROJECT_DIR$/app/model/user.model.js" afterPath="$PROJECT_DIR$/app/model/user.model.js" />
-      <change beforePath="$PROJECT_DIR$/app/model/userChannel.model.js" afterPath="$PROJECT_DIR$/app/model/userChat.model.js" />
-      <change beforePath="$PROJECT_DIR$/app/model/userMessenger.model.js" afterPath="$PROJECT_DIR$/app/model/userMessenger.model.js" />
-      <change beforePath="$PROJECT_DIR$/app/route/app.route.js" afterPath="$PROJECT_DIR$/app/route/app.route.js" />
-      <change beforePath="$PROJECT_DIR$/app/route/channel.route.js" afterPath="$PROJECT_DIR$/app/route/chat.route.js" />
-      <change beforePath="$PROJECT_DIR$/app/route/emoji.route.js" afterPath="$PROJECT_DIR$/app/route/emoji.route.js" />
-      <change beforePath="$PROJECT_DIR$/app/route/messenger.route.js" afterPath="$PROJECT_DIR$/app/route/messenger.route.js" />
-      <change beforePath="$PROJECT_DIR$/app/route/socket.route.js" afterPath="$PROJECT_DIR$/app/route/socket.route.js" />
-      <change beforePath="$PROJECT_DIR$/app/route/user.route.js" afterPath="$PROJECT_DIR$/app/route/user.route.js" />
-      <change beforePath="$PROJECT_DIR$/app/route/userChannel.route.js" afterPath="$PROJECT_DIR$/app/route/userChat.route.js" />
-      <change beforePath="$PROJECT_DIR$/app/route/userFriend.route.js" afterPath="$PROJECT_DIR$/app/route/userFriend.route.js" />
-      <change beforePath="$PROJECT_DIR$/app/route/userMessenger.route.js" afterPath="$PROJECT_DIR$/app/route/userMessenger.route.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/app.service.js" afterPath="$PROJECT_DIR$/app/service/app.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/channel.service.js" afterPath="$PROJECT_DIR$/app/service/chat.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/emoji.service.js" afterPath="$PROJECT_DIR$/app/service/emoji.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/initData.service.js" afterPath="$PROJECT_DIR$/app/service/initData.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/messenger.service.js" afterPath="$PROJECT_DIR$/app/service/messenger.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/redis.service.js" afterPath="$PROJECT_DIR$/app/service/redis.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/socket.service.js" afterPath="$PROJECT_DIR$/app/service/socket.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/user.service.js" afterPath="$PROJECT_DIR$/app/service/user.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/userChannel.service.js" afterPath="$PROJECT_DIR$/app/service/userChat.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/userFriend.service.js" afterPath="$PROJECT_DIR$/app/service/userFriend.service.js" />
-      <change beforePath="$PROJECT_DIR$/app/service/userMessenger.service.js" afterPath="$PROJECT_DIR$/app/service/userMessenger.service.js" />
-      <change beforePath="$PROJECT_DIR$/node_modules/http-cas-client/src/merge.js" afterPath="$PROJECT_DIR$/node_modules/http-cas-client/src/merge.js" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/LICENSE.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/README.md" afterPath="$PROJECT_DIR$/node_modules/lodash/README.md" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/dist/lodash.compat.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/dist/lodash.compat.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/dist/lodash.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/dist/lodash.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/dist/lodash.underscore.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/dist/lodash.underscore.min.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/lodash.js" afterPath="$PROJECT_DIR$/node_modules/lodash/lodash.js" />
-      <change beforePath="$PROJECT_DIR$/node_modules/lodash/package.json" afterPath="$PROJECT_DIR$/node_modules/lodash/package.json" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
       <change beforePath="$PROJECT_DIR$/static/app-client" afterPath="$PROJECT_DIR$/static/app-client" />
       <change beforePath="$PROJECT_DIR$/static/app-client/package-lock.json" afterPath="$PROJECT_DIR$/static/app-client/package-lock.json" />
       <change beforePath="$PROJECT_DIR$/static/app-client/package.json" afterPath="$PROJECT_DIR$/static/app-client/package.json" />
@@ -193,6 +95,8 @@
       <change beforePath="$PROJECT_DIR$/static/app-client/src/app/sidebar/side-bar-view.component.ts" afterPath="$PROJECT_DIR$/static/app-client/src/app/sidebar/side-bar-view.component.ts" />
       <change beforePath="$PROJECT_DIR$/static/app-client/src/public/css/chat-app.css" afterPath="$PROJECT_DIR$/static/app-client/src/public/css/chat-app.css" />
     </list>
+    <ignored path="$PROJECT_DIR$/static/app-client/node_modules/" />
+    <ignored path="$PROJECT_DIR$/node_modules/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -215,126 +119,90 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.45439607">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-          <file leaf-file-name="userChat.route.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/route/userChat.route.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3780">
-                  <caret line="140" column="31" lean-forward="false" selection-start-line="140" selection-start-column="31" selection-end-line="140" selection-end-column="31" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="userChat.service.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/service/userChat.service.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="11421">
-                  <caret line="423" column="11" lean-forward="false" selection-start-line="423" selection-start-column="11" selection-end-line="423" selection-end-column="11" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="messenger.route.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/route/messenger.route.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3996">
-                  <caret line="148" column="35" lean-forward="false" selection-start-line="148" selection-start-column="35" selection-end-line="148" selection-end-column="35" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="messenger.service.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/service/messenger.service.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="8613">
-                  <caret line="319" column="22" lean-forward="false" selection-start-line="319" selection-start-column="22" selection-end-line="319" selection-end-column="22" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="user.model.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/model/user.model.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="513">
-                  <caret line="19" column="19" lean-forward="false" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="messenger.dao.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/dao/messenger.dao.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3078">
-                  <caret line="114" column="36" lean-forward="false" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="chat.service.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/service/chat.service.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1134">
-                  <caret line="42" column="2" lean-forward="false" selection-start-line="42" selection-start-column="2" selection-end-line="42" selection-end-column="2" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="chat.route.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/route/chat.route.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="5535">
-                  <caret line="205" column="27" lean-forward="false" selection-start-line="205" selection-start-column="27" selection-end-line="205" selection-end-column="27" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="chat.dao.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/dao/chat.dao.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="8289">
-                  <caret line="307" column="40" lean-forward="false" selection-start-line="307" selection-start-column="40" selection-end-line="307" selection-end-column="40" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="user.route.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/route/user.route.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="9045">
-                  <caret line="335" column="1" lean-forward="false" selection-start-line="335" selection-start-column="1" selection-end-line="335" selection-end-column="1" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-          <file leaf-file-name="post.dao.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/dao/post.dao.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="27">
-                  <caret line="77" column="25" lean-forward="false" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
+      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="513">
+              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="db.config.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/common/config/db.config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="env.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/common/config/env.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="7" column="19" lean-forward="false" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="attachment.mapping.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/mapping/attachment.mapping.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="attachment.model.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/model/attachment.model.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="243">
+              <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chat.model.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/model/chat.model.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.dao.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/dao/base.dao.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="redis.config.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/common/config/redis.config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="243">
+              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -359,6 +227,8 @@
       <find>$bean.cloneJson</find>
       <find>$bean.clone</find>
       <find>doUpdateChat</find>
+      <find>redisApp</find>
+      <find>nodeApp</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -372,19 +242,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/dao/device.dao.js" />
-        <option value="$PROJECT_DIR$/app/dao/post.dao.js" />
-        <option value="$PROJECT_DIR$/app/mapping/notification.mapping.js" />
-        <option value="$PROJECT_DIR$/app/mapping/comment.mapping.js" />
-        <option value="$PROJECT_DIR$/app/mapping/messenger.mapping.js" />
-        <option value="$PROJECT_DIR$/app/route/userChat.route.js" />
-        <option value="$PROJECT_DIR$/app/model/chat.model.js" />
-        <option value="$PROJECT_DIR$/app/mapping/chat.mapping.js" />
-        <option value="$PROJECT_DIR$/app/service/userChat.service.js" />
-        <option value="$PROJECT_DIR$/app/service/chat.service.js" />
-        <option value="$PROJECT_DIR$/app/dao/chat.dao.js" />
-        <option value="$PROJECT_DIR$/app/dao/messenger.dao.js" />
-        <option value="$PROJECT_DIR$/app/service/messenger.service.js" />
+        <option value="$PROJECT_DIR$/app/common/config/env.js" />
       </list>
     </option>
   </component>
@@ -426,7 +284,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -445,13 +305,18 @@
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="common" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="HyperChat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HyperChat" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -465,7 +330,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1566758686349" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../App-Client-React-Native/Hyper-App-ReactNative" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../HyperSSO/HyperSSO" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -513,33 +378,81 @@
       <module />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method v="2">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method>
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method>
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="TestNG">
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
       <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
       <properties />
       <listeners />
-      <method v="2">
+      <method>
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
       <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file enabled="true" id="idea.log" />
-      <method v="2">
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method>
         <option name="Make" enabled="true" />
       </method>
     </configuration>
@@ -756,11 +669,15 @@
       <workItem from="1578937451090" duration="817000" />
       <workItem from="1578979789987" duration="893000" />
       <workItem from="1581389034572" duration="73000" />
+      <workItem from="1588595447163" duration="6179000" />
+      <workItem from="1588703130044" duration="5258000" />
+      <workItem from="1589490549009" duration="599000" />
+      <workItem from="1589554098635" duration="699000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29477000" />
+    <option name="totallyTimeSpent" value="42212000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1102" extended-state="6" />
@@ -773,19 +690,19 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.05184332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33064517" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3481081" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26324326" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -840,210 +757,25 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="12" column="23" lean-forward="false" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+        <state relative-caret-position="513">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/common/config/db.config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1566">
-          <caret line="58" column="2" lean-forward="false" selection-start-line="58" selection-start-column="2" selection-end-line="58" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/service/messenger.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6399">
-          <caret line="237" column="42" lean-forward="true" selection-start-line="237" selection-start-column="42" selection-end-line="237" selection-end-column="42" />
+        <state relative-caret-position="540">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/dao/device.dao.js">
+    <entry file="file://$PROJECT_DIR$/app/common/config/env.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="837">
-          <caret line="31" column="22" lean-forward="false" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/route/post.route.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3024">
-          <caret line="112" column="28" lean-forward="false" selection-start-line="112" selection-start-column="28" selection-end-line="112" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/service/post.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1647">
-          <caret line="61" column="30" lean-forward="false" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/route/messenger.route.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3645">
-          <caret line="135" column="0" lean-forward="false" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+        <state relative-caret-position="189">
+          <caret line="7" column="19" lean-forward="false" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/dao/post.dao.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1377">
-          <caret line="51" column="42" lean-forward="false" selection-start-line="51" selection-start-column="42" selection-end-line="51" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="12" column="23" lean-forward="false" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/common/config/db.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1566">
-          <caret line="58" column="2" lean-forward="false" selection-start-line="58" selection-start-column="2" selection-end-line="58" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/service/messenger.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5508">
-          <caret line="204" column="43" lean-forward="true" selection-start-line="204" selection-start-column="43" selection-end-line="204" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/route/post.route.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3024">
-          <caret line="112" column="28" lean-forward="false" selection-start-line="112" selection-start-column="28" selection-end-line="112" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/service/post.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1647">
-          <caret line="61" column="30" lean-forward="true" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/dao/post.dao.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4374">
-          <caret line="162" column="26" lean-forward="true" selection-start-line="162" selection-start-column="26" selection-end-line="162" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="12" column="23" lean-forward="false" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/common/config/db.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1566">
-          <caret line="58" column="2" lean-forward="false" selection-start-line="58" selection-start-column="2" selection-end-line="58" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/route/post.route.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3024">
-          <caret line="112" column="28" lean-forward="false" selection-start-line="112" selection-start-column="28" selection-end-line="112" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/service/post.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1647">
-          <caret line="61" column="30" lean-forward="false" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/dao/device.dao.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="837">
-          <caret line="31" column="22" lean-forward="false" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/dao/post.dao.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="77" column="25" lean-forward="false" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/route/comment.route.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="64" column="29" lean-forward="true" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/service/comment.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="44" column="30" lean-forward="false" selection-start-line="44" selection-start-column="30" selection-end-line="44" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/dao/comment.dao.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="628">
-          <caret line="69" column="72" lean-forward="true" selection-start-line="69" selection-start-column="72" selection-end-line="69" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/model/attachment.model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-81">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/model/comment.model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/userReactPostComment.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-405">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/userMessenger.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-324">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/userFriend.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-81">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/userChat.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-648">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1051,162 +783,238 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/comment.mapping.js">
+    <entry file="file://$PROJECT_DIR$/app/model/attachment.model.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/device.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/emoji.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/messenger.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="20" column="32" lean-forward="false" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/notification.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="22" column="36" lean-forward="false" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/post.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/user.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1053">
-          <caret line="39" column="41" lean-forward="false" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/dao/base.dao.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="111" column="10" lean-forward="false" selection-start-line="111" selection-start-column="10" selection-end-line="111" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/model/userChat.model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="53" column="24" lean-forward="false" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/mapping/chat.mapping.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="31" column="10" lean-forward="false" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
+        <state relative-caret-position="243">
+          <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/model/chat.model.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="47" column="5" lean-forward="false" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/dao/chat.dao.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8289">
-          <caret line="307" column="40" lean-forward="false" selection-start-line="307" selection-start-column="40" selection-end-line="307" selection-end-column="40" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/route/user.route.js">
+    <entry file="file://$PROJECT_DIR$/app/dao/base.dao.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9045">
-          <caret line="335" column="1" lean-forward="false" selection-start-line="335" selection-start-column="1" selection-end-line="335" selection-end-column="1" />
+        <state relative-caret-position="108">
+          <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/route/userChat.route.js">
+    <entry file="file://$PROJECT_DIR$/app/common/config/redis.config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3780">
-          <caret line="140" column="31" lean-forward="false" selection-start-line="140" selection-start-column="31" selection-end-line="140" selection-end-column="31" />
+        <state relative-caret-position="0">
+          <caret line="0" column="42" lean-forward="false" selection-start-line="0" selection-start-column="42" selection-end-line="0" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/service/userChat.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11421">
-          <caret line="423" column="11" lean-forward="false" selection-start-line="423" selection-start-column="11" selection-end-line="423" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/service/chat.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1134">
-          <caret line="42" column="2" lean-forward="false" selection-start-line="42" selection-start-column="2" selection-end-line="42" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/route/chat.route.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5535">
-          <caret line="205" column="27" lean-forward="false" selection-start-line="205" selection-start-column="27" selection-end-line="205" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/route/messenger.route.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3996">
-          <caret line="148" column="35" lean-forward="false" selection-start-line="148" selection-start-column="35" selection-end-line="148" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/dao/messenger.dao.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3078">
-          <caret line="114" column="36" lean-forward="false" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/service/messenger.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8613">
-          <caret line="319" column="22" lean-forward="false" selection-start-line="319" selection-start-column="22" selection-end-line="319" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/model/user.model.js">
+    <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
-          <caret line="19" column="19" lean-forward="false" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config/db.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config/env.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/mapping/attachment.mapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/model/attachment.model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/model/chat.model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/dao/base.dao.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config/redis.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="42" lean-forward="false" selection-start-line="0" selection-start-column="42" selection-end-line="0" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config/db.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config/env.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="30" column="2" lean-forward="false" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/mapping/attachment.mapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/model/chat.model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/dao/base.dao.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config/redis.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="42" lean-forward="false" selection-start-line="0" selection-start-column="42" selection-end-line="0" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/model/attachment.model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/dao/base.dao.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" column="14" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/mapping/attachment.mapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/model/chat.model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/model/attachment.model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config/db.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config/env.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="7" column="19" lean-forward="false" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/common/config/redis.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
         </state>
       </provider>
